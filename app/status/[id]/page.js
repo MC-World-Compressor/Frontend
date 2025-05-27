@@ -19,14 +19,14 @@ export default function StatusPage({ params }) {
         console.info("Actualizando datos...");
       try {
         const res = await fetch(`/api/proxy/estado/${id}`);
-        if (!res.ok) throw new Error('Error al obtener el estado');
         const data = await res.json();
+        if (!res.ok && !data.estado.startsWith('error')) throw new Error('Error al obtener el estado');
         //console.log('Estado:', data.estado, 'Cola:', data.cola);
         setEstado(data.estado);
         if (data.estado === 'listo') {
             clearInterval(interval);
             router.push(`/download/${id}`);
-        } else if (data.estado === 'error') {
+        } else if (data.estado.startsWith('error')) {
             setError('Hubo un error procesando tu mundo.');
             setCola(0);
             clearInterval(interval);
