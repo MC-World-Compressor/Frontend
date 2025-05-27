@@ -1,0 +1,66 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { use } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function StatusPage({ params }) {
+  const parametros = use(params);
+  const { id } = parametros;
+  const [estado, setEstado] = useState('Cargando...');
+  const [cola, setCola] = useState(0);
+  const [error, setError] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    let interval;
+
+    const fetchEstado = async () => {
+        console.info("Actualizando datos...");
+      try {
+        const res = await fetch(`/api/proxy/estado/${id}`);
+        if (!res.ok) throw new Error('Error al obtener el estado');
+        const data = await res.json();
+        //console.log('Estado:', data.estado, 'Cola:', data.cola);
+        setEstado(data.estado);
+        if (data.estado === 'listo') {
+            clearInterval(interval);
+            router.push(`/download/${id}`);
+        } else if (data.estado === 'error') {
+            setError('Hubo un error procesando tu mundo.');
+            setCola(0);
+            clearInterval(interval);
+        } else if (data.estado === 'pendiente') {
+            setCola(data.cola || 0);
+          
+        } else if (data.estado === 'procesando') {
+            setCola(0);
+            setError(null);
+        }
+      } catch (e) {
+            setError(e.message);
+            setCola(0);
+            clearInterval(interval);
+      }
+    };
+
+    fetchEstado();
+    interval = setInterval(fetchEstado, 5000);
+
+    return () => clearInterval(interval);
+  }, [id]);
+
+  return (
+    <main className="max-w-xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Estado del mundo</h1>
+      {error ? (
+        <p className="text-red-600">{error}</p>
+      ) : (
+        <>
+          <p>Estado actual: <strong>{estado}</strong></p>
+          <p>{estado == 'pendiente' ? cola == 0 && cola == 0/0 ? "Cargando..." : "Cola: " + cola : ''}</p>
+        </>
+      )}
+    </main>
+  );
+}

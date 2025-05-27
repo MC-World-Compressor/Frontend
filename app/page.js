@@ -1,103 +1,156 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function HomePage() {
+  const [fichero, setFile] = useState(null);
+  const [subiendo, setSubiendo] = useState(false);
+  const [progresoSubida, setUploadProgress] = useState(0);
+  const [serverId, setJobId] = useState(null);
+  const [error, setServerId] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (serverId) {
+      const timer = setTimeout(() => {
+        router.push(`/status/${serverId}`);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [serverId, router]);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setServerId(null);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!fichero) {
+      setServerId('Por favor selecciona un archivo.');
+      return;
+    }
+    setSubiendo(true);
+    setUploadProgress(0);
+    setServerId(null);
+
+    const formData = new FormData();
+    formData.append('mundo_comprimido', fichero);
+
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/proxy/subidas', true);
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          const progress = Math.round((event.loaded / event.total) * 80);
+          setUploadProgress(progress);
+        }
+      };
+      
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            console.log("Respuesta del servidor:", data);
+            
+            setUploadProgress(100);
+            
+            if (data.servidor_id) {
+              setJobId(data.servidor_id);
+            } else if (data.jobId) {
+              setJobId(data.jobId);
+            } else {
+              throw new Error('Error al subir el mundo: ID del servidor no encontrado');
+            }
+          } catch (parseError) {
+            console.error("Error al procesar la respuesta:", parseError);
+            throw new Error('Error al procesar la respuesta del servidor');
+          }
+        } else {
+          throw new Error('Error al subir el mundo');
+        }
+      };
+      
+      xhr.onerror = () => {
+        throw new Error('Error de conexión');
+      };
+      
+      xhr.send(formData);
+    } catch (e) {
+      console.error("Error completo:", e);
+      setServerId(e.message);
+      setSubiendo(false);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="max-w-xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Comprime tu mundo de Minecraft</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div 
+          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors"
+          onClick={() => document.getElementById('mundo_comprimido').click()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.add('border-blue-500');
+          }}
+          onDragLeave={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.remove('border-blue-500');
+          }}
+          onDrop={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.remove('border-blue-500');
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+              setFile(e.dataTransfer.files[0]);
+              setServerId(null);
+            }
+          }}
+        >
+          <p className="mb-2">Arrastra aquí un archivo ZIP o haz clic para seleccionar</p>
+          {fichero && <p className="text-sm text-green-600">Archivo seleccionado: {fichero.name}</p>}
+          <input 
+            type="file" 
+            accept=".zip,.tar,.tar.gz,.mcworld" 
+            name="mundo_comprimido" 
+            id="mundo_comprimido" 
+            onChange={handleFileChange} 
+            className="hidden"
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        
+        {subiendo && !serverId && (
+          <div className="w-full mt-2">
+            <div className="bg-gray-200 rounded-full h-4 mb-2">
+              <div 
+                className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-in-out"
+                style={{ width: `${progresoSubida}%` }}
+              ></div>
+            </div>
+            <p className="text-sm text-center text-gray-600">
+              Subiendo... {progresoSubida}%
+            </p>
+          </div>
+        )}
+        
+        {error && <p className="text-red-600">{error}</p>}
+        <button
+          type="submit"
+          disabled={subiendo}
+          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {subiendo ? 'Subiendo...' : 'Comprimir Mundo'}
+        </button>
+      </form>
+
+      {serverId && (
+        <p className="mt-4">
+          Mundo subido con éxito. Redirigiendo a la página de estado...
+        </p>
+      )}
+    </main>
   );
 }
