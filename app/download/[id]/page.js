@@ -36,20 +36,9 @@ return (
         {linkDescarga ? (
             <>
             <button
-                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors cursor-pointer"
-                onClick={async () => {
+                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors cursor-pointer"                onClick={() => {
                     try {
-                        const response = await fetch(`/api/proxy/descargar/${id}`);
-                        if (!response.ok) throw new Error('Error al descargar el archivo');
-                        const blob = await response.blob();
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = linkDescarga.split('/').pop() || 'error.zip'; //TODO Crearlo??
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
-                        window.URL.revokeObjectURL(url);
+                        window.location.href = linkDescarga;
                     } catch (e) {
                         setError(e.message);
                     }

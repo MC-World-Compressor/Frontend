@@ -14,40 +14,50 @@ export default function StatusPage({ params }) {
 
   useEffect(() => {
     let interval;
+    let estaFecheando = false;
+    let parado = false;
 
     const fetchEstado = async () => {
-        console.info("Actualizando datos...");
+      if (estaFecheando || parado) return;
+      estaFecheando = true;
       try {
+        console.info("Actualizando datos...");
         const res = await fetch(`/api/proxy/estado/${id}`);
         const data = await res.json();
         if (!res.ok && !data.estado.startsWith('error')) throw new Error('Error al obtener el estado');
-        //console.log('Estado:', data.estado, 'Cola:', data.cola);
         setEstado(data.estado);
         if (data.estado === 'listo') {
-            clearInterval(interval);
-            router.push(`/download/${id}`);
+          parado = true;
+          clearInterval(interval);
+          router.push(`/download/${id}`);
         } else if (data.estado.startsWith('error')) {
-            setError('Hubo un error procesando tu mundo.');
-            setCola(0);
-            clearInterval(interval);
+          setError('Hubo un error procesando tu mundo.');
+          setCola(0);
+          parado = true;
+          clearInterval(interval);
         } else if (data.estado === 'pendiente') {
-            setCola(data.cola || 0);
-          
+          setCola(data.cola || 0);
         } else if (data.estado === 'procesando') {
-            setCola(0);
-            setError(null);
+          setCola(0);
+          setError(null);
         }
       } catch (e) {
-            setError(e.message);
-            setCola(0);
-            clearInterval(interval);
+        setError(e.message);
+        setCola(0);
+        parado = true;
+        clearInterval(interval);
+      } finally {
+        estaFecheando = false;
       }
     };
 
     fetchEstado();
     interval = setInterval(fetchEstado, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      parado = true;
+      clearInterval(interval);
+    };
   }, [id]);
 
   return (
