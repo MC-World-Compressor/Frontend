@@ -1,156 +1,166 @@
-'use client';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-
-export default function HomePage() {
-  const [fichero, setFichero] = useState(null);
-  const [subiendo, setSubiendo] = useState(false);
-  const [progresoSubida, setProgresoSubida] = useState(0);
-  const [serverId, setServerId] = useState(null);
-  const [error, setError] = useState(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (serverId) {
-      const timer = setTimeout(() => {
-        router.push(`/status/${serverId}`);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [serverId, router]);
-
-  const handleFileChange = (e) => {
-    setFichero(e.target.files[0]);
-    setError(null);
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!fichero) {
-      setError('Por favor selecciona un archivo.');
-      return;
-    }
-    setSubiendo(true);
-    setProgresoSubida(0);
-    setError(null);
-
-    const formData = new FormData();
-    formData.append('mundo_comprimido', fichero);
-
-    try {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/proxy/subidas', true);
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const progress = Math.round((event.loaded / event.total) * 80);
-          setProgresoSubida(progress);
-        }
-      };
-      
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          try {
-            const data = JSON.parse(xhr.responseText);
-            console.log("Respuesta del servidor:", data);
-            
-            setProgresoSubida(100);
-            
-            if (data.servidor_id) {
-              setServerId(data.servidor_id);
-            } else if (data.jobId) {
-              setServerId(data.jobId);
-            } else {
-              throw new Error('Error al subir el mundo: ID del servidor no encontrado');
-            }
-          } catch (parseError) {
-            console.error("Error al procesar la respuesta:", parseError);
-            throw new Error('Error al procesar la respuesta del servidor');
-          }
-        } else {
-          throw new Error('Error al subir el mundo');
-        }
-      };
-      
-      xhr.onerror = () => {
-        throw new Error('Error de conexión');
-      };
-      
-      xhr.send(formData);
-    } catch (e) {
-      console.error("Error completo:", e);
-      setError(e.message);
-      setSubiendo(false);
-    }
-  };
-
+const Accordion = ({ title, children }) => {
   return (
-    <main className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Comprime tu mundo de Minecraft</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div 
-          className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 transition-colors"
-          onClick={() => document.getElementById('mundo_comprimido').click()}
-          onDragOver={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.currentTarget.classList.add('border-blue-500');
-          }}
-          onDragLeave={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.currentTarget.classList.remove('border-blue-500');
-          }}
-          onDrop={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.currentTarget.classList.remove('border-blue-500');
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-              setFichero(e.dataTransfer.files[0]);
-              setError(null);
-            }
-          }}
-        >
-          <p className="mb-2">Arrastra aquí un archivo ZIP o haz clic para seleccionar</p>
-          {fichero && <p className="text-sm text-green-600">Archivo seleccionado: {fichero.name}</p>}
-          <input 
-            type="file" 
-            accept=".zip,.tar,.tar.gz,.rar" 
-            name="mundo_comprimido" 
-            id="mundo_comprimido" 
-            onChange={handleFileChange} 
-            className="hidden"
-          />
+    <details className="group border-b border-gray-200">
+      <summary className="flex justify-between items-center font-medium cursor-pointer list-none py-4">
+        <span className="text-lg font-semibold text-gray-800">{title}</span>
+        <span className="transition group-open:rotate-180">
+          <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </span>
+      </summary>
+      <div className="text-gray-600 pb-4">{children}</div>
+    </details>
+  );
+};
+
+
+export default function Inicio() {
+  return (
+    <div className="bg-white-50">
+      <section className="py-20 text-center">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Comprime tus mundos de Minecraft
+          </h1>
+          <p className="text-2xl md:text-3xl font-bold mb-2">
+            Reduce el tamaño cerca de un{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              50%
+            </span>
+          </p>
+          <p className="text-xl md:text-2xl text-gray-600 mb-6">
+            Gratis y Online
+          </p>
+          <Link
+            href="/upload"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md text-lg font-medium transition-colors"
+          >
+            Comprimir Mundo
+          </Link>
         </div>
-        
-        {subiendo && !serverId && (
-          <div className="w-full mt-2">
-            <div className="bg-gray-200 rounded-full h-4 mb-2">
-              <div 
-                className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-in-out"
-                style={{ width: `${progresoSubida}%` }}
-              ></div>
+      </section>
+
+      <section className="py-16 bg-gray-50 mt-30">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-2">
+            Antes y después
+          </h2>
+          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>
+
+          {/* //TODO Remplazarlo por una foto + texto del antes y despues*/}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div className="relative h-64 md:h-96 bg-white rounded-lg shadow-md overflow-hidden">
+              <Image
+                src="/assets/img/before-compression.webp"
+                alt="Antes de la compresión"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4">
+                <p className="font-bold">Antes: 2.4 GB</p>
+              </div>
             </div>
-            <p className="text-sm text-center text-gray-600">
-              Subiendo... {progresoSubida}%
+            <div className="relative h-64 md:h-96 bg-white rounded-lg shadow-md overflow-hidden">
+              <Image
+                src="/assets/img/after-compression.webp"
+                alt="Después de la compresión"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4">
+                <p className="font-bold">Después: 350 MB</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-600 text-white rounded-lg p-6 text-center">
+            <p className="text-xl">
+              ¡Ahorra hasta un 85% de espacio en tus mundos de Minecraft!
             </p>
           </div>
-        )}
-        
-        {error && <p className="text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={subiendo}
-          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-        >
-          {subiendo ? 'Subiendo...' : 'Comprimir Mundo'}
-        </button>
-      </form>
+        </div>
+      </section>
 
-      {serverId && (
-        <p className="mt-4">
-          Mundo subido con éxito. Redirigiendo a la página de estado...
-        </p>
-      )}
-    </main>
+      {/* Sección de FAQs con Accordion */}
+      <section className="py-16 bg-white" id="faq">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Preguntas frecuentes (FAQ)
+          </h2>
+
+          <div className="divide-y divide-gray-200">
+            <Accordion title="¿Es realmente gratis?">
+              <p>
+                Sí, el servicio de compresión de mundos de Minecraft es
+                completamente gratuito. No hay costes ocultos ni necesidad de
+                registrarse para usarlo.
+              </p>
+            </Accordion>
+
+            <Accordion title="¿Cuál es el límite de tamaño?">
+              <p>
+                Puedes subir mundos de hasta 4GB de tamaño. Esta limitación es
+                para garantizar un servicio rápido y eficiente para todos los
+                usuarios.
+              </p>
+            </Accordion>
+
+            <Accordion title="¿Funciona con Bedrock?">
+              <p>
+                No, actualmente el compresor solo comprime mundos de Minecraft Java 1.2.1 en adelante.
+              </p>
+            </Accordion>
+
+            <Accordion title="¿Cuánto tiempo se guardan los archivos?">
+              <p>
+                Los mundos comprimidos se almacenan durante 1 hora después de la
+                compresión. Después de este tiempo, se eliminan automáticamente
+                de nuestros servidores para optimizar el almacenamiento.
+              </p>
+            </Accordion>
+
+            <Accordion title="¿Cómo puedo compartir mi mundo comprimido?">
+              <p>
+                Una vez completada la compresión, podras compartir un enlace único 
+                con tus amigos.<br/>
+                Este enlace será válido durante
+                1 hora desde que termine la compresión.
+              </p>
+            </Accordion>
+
+            <Accordion title="¿Es seguro para mis archivos?">
+              <p>
+                Absolutamente. Nuestro servicio procesa tus archivos localmente
+                y luego los elimina automáticamente después de 1 hora. No
+                almacenamos ninguna información personal ni mantenemos copias de
+                tus mundos después de ese período.
+              </p>
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-blue-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-6">
+            ¿Listo para comprimir tu mundo de Minecraft?
+          </h2>
+          <p className="text-xl mb-8">Ahorra espacio sin perder calidad</p>
+          <Link
+            href="/upload"
+            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+          >
+            Comprimir ahora
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 }
