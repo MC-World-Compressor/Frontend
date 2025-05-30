@@ -43,39 +43,136 @@ export default function Inicio() {
           </Link>
         </div>
       </section>
-
       <section className="py-16 bg-gray-50 mt-30">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-2">
             Antes y después
           </h2>
-          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>
-
-          {/* //TODO Remplazarlo por una foto + texto del antes y despues*/}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="relative h-64 md:h-96 bg-white rounded-lg shadow-md overflow-hidden">
-              <Image
-                src="/assets/img/before-compression.webp"
-                alt="Antes de la compresión"
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4">
-                <p className="font-bold">Antes: 2.4 GB</p>
+          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>          <div className="space-y-10 mb-8">
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+                {/* Antes */}
+                <div className="mb-6 md:mb-0 text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo sin comprimir"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">world_survival.zip</p>
+                  <p className="font-bold text-red-600 text-lg">24MB</p>
+                </div>
+                
+                {/* Flecha */}
+                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                
+                {/* Después */}
+                <div className="text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo comprimido"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">world_survival_compressed.zip</p>
+                  <p className="font-bold text-green-600 text-lg">6MB</p>
+                </div>
               </div>
+              <p className="text-center mt-6 text-blue-600 font-bold text-xl">75% menos de espacio</p>
             </div>
-            <div className="relative h-64 md:h-96 bg-white rounded-lg shadow-md overflow-hidden">
-              <Image
-                src="/assets/img/after-compression.webp"
-                alt="Después de la compresión"
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4">
-                <p className="font-bold">Después: 350 MB</p>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+                {/* Antes */}
+                <div className="mb-6 md:mb-0 text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo sin comprimir"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">creative_world.zip</p>
+                  <p className="font-bold text-red-600 text-lg">94MB</p>
+                </div>
+                
+                {/* Flecha */}
+                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                
+                {/* Después */}
+                <div className="text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo comprimido"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">creative_world_compressed.zip</p>
+                  <p className="font-bold text-green-600 text-lg">29MB</p>
+                </div>
               </div>
+              <p className="text-center mt-6 text-blue-600 font-bold text-xl">69% menos de espacio</p>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+                {/* Antes */}
+                <div className="mb-6 md:mb-0 text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo sin comprimir"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">server_world.zip</p>
+                  <p className="font-bold text-red-600 text-lg">1340MB</p>
+                </div>
+                
+                {/* Flecha */}
+                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                
+                {/* Después */}
+                <div className="text-center">
+                  <div className="relative w-40 h-40 mx-auto">
+                    <Image
+                      src="/assets/img/logo.webp"
+                      alt="Mundo comprimido"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <p className="font-medium text-gray-700 mt-3">server_world_compressed.zip</p>
+                  <p className="font-bold text-green-600 text-lg">715MB</p>
+                </div>
+              </div>
+              <p className="text-center mt-6 text-blue-600 font-bold text-xl">47% menos de espacio</p>
             </div>
           </div>
 
