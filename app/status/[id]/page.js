@@ -96,7 +96,7 @@ export default function StatusPage({ params }) {
     switch (estado) {
       case 'pendiente':
         return (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -104,7 +104,7 @@ export default function StatusPage({ params }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <div className="text-sm text-yellow-700">
+                <div className="text-sm text-yellow-700 dark:text-yellow-300">
                   <p className="font-semibold">Tu mundo está en la cola de procesamiento.</p>
                   <p className="mt-1">
                     {cola ? 
@@ -116,12 +116,10 @@ export default function StatusPage({ params }) {
                         cola > 0 ? `Posición en cola: ${cola}` : "Calculando posición en cola..." 
                       : "Calculando posición en cola..."}
                   </p>
-                  <div className="mt-2 w-full bg-yellow-200 rounded-full h-2">
+                  <div className="mt-2 w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-2">
                     {typeof cola === 'string' && cola.includes('/') ? 
                       (() => {
                         const [posicion, total] = cola.split('/').map(Number);
-                        // Si estás primero en la cola (posición 1), debes mostrar más progreso
-                        // Menor posición = más cerca de ser procesado = más progreso en la barra
                         const porcentaje = total > 0 ? (1 - ((posicion - 1) / total)) * 100 : 0;
                         return <div className="bg-yellow-500 h-2 rounded-full" style={{ width: `${porcentaje}%` }}></div>
                       })() : null
@@ -134,7 +132,7 @@ export default function StatusPage({ params }) {
         );
       case 'procesando':
         return (
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -143,7 +141,7 @@ export default function StatusPage({ params }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-blue-700">
+                <p className="text-sm text-blue-700 dark:text-blue-300">
                   Tu mundo se está procesando en este momento. Esto puede tomar unos minutos.
                 </p>
               </div>
@@ -152,7 +150,7 @@ export default function StatusPage({ params }) {
         );
       case 'listo':
         return (
-          <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+          <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -160,7 +158,7 @@ export default function StatusPage({ params }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-green-700">
+                <p className="text-sm text-green-700 dark:text-green-300">
                   ¡Tu mundo está listo! {redireccionando ? "Redirigiendo a la página de descarga..." : ""}
                 </p>
                 <Link href={`/download/${id}`} className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -172,7 +170,7 @@ export default function StatusPage({ params }) {
         );
       case 'expirado':
         return (
-          <div className="bg-gray-50 border-l-4 border-gray-400 p-4 mb-4">
+          <div className="bg-gray-50 dark:bg-gray-800 border-l-4 border-gray-400 p-4 mb-4">
             <div>
               <div className="flex items-center mb-3">
                 <div className="flex-shrink-0">
@@ -181,16 +179,16 @@ export default function StatusPage({ params }) {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <h3 className="font-medium text-gray-800">
+                  <h3 className="font-medium text-gray-800 dark:text-gray-200">
                     El enlace de descarga ha expirado
                   </h3>
                 </div>
               </div>
               
               {infoMundo && (
-                <div className="bg-white rounded-md p-3 mb-4 border border-gray-200">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Información del mundo expirado:</h4>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                <div className="bg-white dark:bg-gray-700 rounded-md p-3 mb-4 border border-gray-200 dark:border-gray-600">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Información del mundo expirado:</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 dark:text-gray-400">
                     <div>
                       <p className="font-medium">Fecha de creación:</p>
                       <p>{new Date(infoMundo.fechaCreacion).toLocaleString()}</p>
@@ -217,7 +215,7 @@ export default function StatusPage({ params }) {
                 </div>
               )}
               
-              <p className="text-sm text-gray-700 mb-3">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                 El enlace de descarga ha expirado. Puedes comprimir un nuevo mundo para obtener un enlace de descarga válido.
               </p>
               
@@ -228,7 +226,7 @@ export default function StatusPage({ params }) {
                   </svg>
                   Comprimir nuevo mundo
                 </Link>
-                <Link href="/" className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <Link href="/" className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                   Volver al inicio
                 </Link>
               </div>
@@ -238,7 +236,7 @@ export default function StatusPage({ params }) {
       default:
         if (estado.startsWith('error')) {
           return (
-            <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+            <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 mb-4">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -246,7 +244,7 @@ export default function StatusPage({ params }) {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-red-700">
+                  <p className="text-sm text-red-700 dark:text-red-300">
                     Hubo un error al procesar tu mundo. Por favor, intenta de nuevo.
                   </p>
                   <Link href="/" className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
@@ -258,7 +256,7 @@ export default function StatusPage({ params }) {
           );
         }
         return (
-          <div className="bg-gray-50 border-l-4 border-gray-400 p-4 mb-4">
+          <div className="bg-gray-50 dark:bg-gray-800 border-l-4 border-gray-400 p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <svg className="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -267,7 +265,7 @@ export default function StatusPage({ params }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   Cargando información del estado...
                 </p>
               </div>
@@ -279,9 +277,9 @@ export default function StatusPage({ params }) {
 
   return (
     <main className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Estado del mundo</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Estado del mundo</h1>
       {error ? (
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+        <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 mb-4">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -289,7 +287,7 @@ export default function StatusPage({ params }) {
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
               <Link href="/" className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                 Volver al inicio
               </Link>
@@ -298,8 +296,8 @@ export default function StatusPage({ params }) {
         </div>
       ) : (
         <>
-          <div className="mb-4 p-4 bg-white shadow-sm rounded-lg">
-            <h2 className="text-lg font-semibold mb-2">Estado actual</h2>
+          <div className="mb-4 p-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg border dark:border-gray-700">
+            <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Estado actual</h2>
             <div className="flex items-center space-x-2">
               <div className={`h-3 w-3 rounded-full ${
                 estado === 'listo' ? 'bg-green-500' : 
@@ -309,7 +307,7 @@ export default function StatusPage({ params }) {
                 estado === 'expirado' ? 'bg-gray-500' :
                 'bg-gray-300'
               }`}></div>
-              <span className="font-medium">{
+              <span className="font-medium text-gray-700 dark:text-gray-300">{
                 estado === 'listo' ? 'Completado' : 
                 estado === 'procesando' ? 'Procesando' :
                 estado === 'pendiente' ? 'En espera' :

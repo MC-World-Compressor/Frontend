@@ -3,16 +3,16 @@ import Image from 'next/image';
 
 const Accordion = ({ title, children }) => {
   return (
-    <details className="group border-b border-gray-200">
+    <details className="group border-b border-gray-200 dark:border-gray-700">
       <summary className="flex justify-between items-center font-medium cursor-pointer list-none py-4">
-        <span className="text-lg font-semibold text-gray-800">{title}</span>
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">{title}</span>
         <span className="transition group-open:rotate-180">
           <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
             <path d="M6 9l6 6 6-6"></path>
           </svg>
         </span>
       </summary>
-      <div className="text-gray-600 pb-4">{children}</div>
+      <div className="text-gray-600 dark:text-gray-400 pb-4">{children}</div>
     </details>
   );
 };
@@ -20,19 +20,19 @@ const Accordion = ({ title, children }) => {
 
 export default function Inicio() {
   return (
-    <div className="bg-white-50">
+    <div className="bg-white dark:bg-gray-900">
       <section className="py-20 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
             Comprime tus mundos de Minecraft
           </h1>
-          <p className="text-2xl md:text-3xl font-bold mb-2">
+          <p className="text-2xl md:text-3xl font-bold mb-2 text-gray-900 dark:text-white">
             Reduce el tamaño cerca de un{" "}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               50%
             </span>
           </p>
-          <p className="text-xl md:text-2xl text-gray-600 mb-6">
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6">
             Gratis y Online
           </p>
           <Link
@@ -43,14 +43,13 @@ export default function Inicio() {
           </Link>
         </div>
       </section>
-      <section className="py-16 bg-gray-50 mt-30">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800 mt-30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-2">
+          <h2 className="text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">
             Antes y después
           </h2>
-          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-            <div className="bg-white rounded-lg shadow-md p-4">
+          <p className="text-center mb-12 text-gray-600 dark:text-gray-400"><i>(Ejemplos reales)</i></p>          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
               <div className="flex flex-col items-center">
                 {/* Antes */}
                 <div className="text-center mb-2">
@@ -63,7 +62,7 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">small_world_survival.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">small_world_survival.zip</p>
                   <p className="font-bold text-red-600 text-lg">24MB</p>
                 </div>
                 
@@ -85,14 +84,14 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">small_world_compressed.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">small_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">6MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">75% menos</p>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
               <div className="flex flex-col items-center">
                 {/* Antes */}
                 <div className="text-center mb-2">
@@ -105,7 +104,7 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">medium_world.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">medium_world.zip</p>
                   <p className="font-bold text-red-600 text-lg">94MB</p>
                 </div>
                 
@@ -127,14 +126,14 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">medium_world_compressed.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">medium_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">29MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">69% menos</p>
               </div>
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-4">
               <div className="flex flex-col items-center">
                 {/* Antes */}
                 <div className="text-center mb-2">
@@ -147,7 +146,7 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">big_world.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">big_world.zip</p>
                   <p className="font-bold text-red-600 text-lg">1340MB</p>
                 </div>
                 
@@ -169,7 +168,7 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-2">big_world_compressed.zip</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">big_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">715MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">47% menos</p>
@@ -184,15 +183,15 @@ export default function Inicio() {
           </div>
         </div>
       </section>
-
+      
       {/* Sección de FAQs con Accordion */}
-      <section className="py-16 bg-white" id="faq">
+      <section className="py-16 bg-white dark:bg-gray-900" id="faq">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
             Preguntas frecuentes (FAQ)
           </h2>
 
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             <Accordion title="¿Es realmente gratis?">
               <p>
                 Sí, el servicio de compresión de mundos de Minecraft es
@@ -250,10 +249,9 @@ export default function Inicio() {
           <h2 className="text-3xl font-bold mb-6">
             ¿Listo para comprimir tu mundo de Minecraft?
           </h2>
-          <p className="text-xl mb-8">Ahorra espacio sin perder calidad</p>
-          <Link
+          <p className="text-xl mb-8">Ahorra espacio sin perder calidad</p>          <Link
             href="/upload"
-            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-md text-lg font-medium transition-colors"
+            className="bg-white text-blue-600 hover:bg-gray-100 dark:bg-gray-200 dark:hover:bg-gray-300 px-8 py-3 rounded-md text-lg font-medium transition-colors"
           >
             Comprimir ahora
           </Link>
