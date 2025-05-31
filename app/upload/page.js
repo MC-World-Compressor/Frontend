@@ -19,6 +19,7 @@ export default function HomePage() {
       return () => clearTimeout(timer);
     }
   }, [serverId, router]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     
@@ -42,6 +43,7 @@ export default function HomePage() {
       setError(null);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!fichero) {
@@ -121,11 +123,12 @@ export default function HomePage() {
       setSubiendo(false);
     }
   };
+
   return (
     <main className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Comprime tu mundo de Minecraft</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-xl mx-auto">        <div 
-          className="border-2 border-dashed border-gray-300 rounded-lg p-6 h-48 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition-colors"
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-2xl mx-auto">
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 h-52 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 transition-colors"
           onClick={() => document.getElementById('mundo_comprimido').click()}
           onDragOver={(e) => {
             e.preventDefault();
@@ -144,7 +147,7 @@ export default function HomePage() {
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
               const file = e.dataTransfer.files[0];
               
-              // Comprobar si el archivo es .zip
+              // Comprobar si el archivo es un .zip
               if (!file.name.toLowerCase().endsWith('.zip')) {
                 setError('Solo se permiten archivos .zip');
                 setFichero(null);
@@ -168,7 +171,7 @@ export default function HomePage() {
           <button 
             type="button" 
             onClick={() => document.getElementById('mundo_comprimido').click()}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded transition-colors"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-6 rounded transition-colors w-48"
           >
             Seleccionar archivo
           </button>
@@ -181,28 +184,26 @@ export default function HomePage() {
             onChange={handleFileChange} 
             className="hidden"
           />
-        </div>
-          {subiendo && !serverId && !error && (
+        </div>        
+        {error && <p className="text-red-600"><b>{error}</b></p>}
+        <button
+          type="submit"
+          disabled={subiendo || error !== null}
+          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50 w-full"
+        >
+          {subiendo ? `Subiendo... ${Math.floor(progresoSubida)}%` : 'Comprimir Mundo'}
+        </button>
+        
+        {subiendo && !serverId && !error && (
           <div className="w-full mt-2">
-            <div className="bg-gray-200 rounded-full h-4 mb-2">
+            <div className="bg-gray-200 rounded-full h-2 mb-2">
               <div 
-                className="bg-blue-600 h-4 rounded-full transition-all duration-300 ease-in-out"
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-in-out"
                 style={{ width: `${progresoSubida}%` }}
               ></div>
             </div>
-            <p className="text-sm text-center text-gray-600">
-              Subiendo... {Math.floor(progresoSubida)}%
-            </p>
           </div>
         )}
-        
-        {error && <p className="text-red-600"><b>{error}</b></p>}        <button
-          type="submit"
-          disabled={subiendo || error !== null}
-          className="bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-        >
-          {subiendo ? 'Subiendo...' : 'Comprimir Mundo'}
-        </button>
         </form>
         {serverId && (
         <div className="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
@@ -249,7 +250,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-col">
-            <h3 className="font-medium mb-2 h-14 font-semibold">ZIP con archivos directamente.</h3>
+            <h3 className="font-medium mb-2 h-14 font-semibold">ZIP con los archivos directamente.</h3>
             <div className="font-mono text-sm p-3 rounded border border-gray-200 flex-grow h-64 overflow-auto">
               <div>📁 world.zip</div>
               <div className="ml-4">📄 level.dat</div>
@@ -260,7 +261,7 @@ export default function HomePage() {
               <div className="ml-8">📄 r.0.1.mca</div>
               <div className="ml-4">📁 DIM1/</div>
               <div className="ml-4">📁 DIM-1/</div>
-              <div className="ml-8">📁 <i>Otros ficheros...</i></div>
+              <div className="ml-4">📁 <i>Otros ficheros...</i></div>
             </div>
           </div>
 
@@ -268,13 +269,13 @@ export default function HomePage() {
             <h3 className="font-medium mb-2 h-14 font-semibold">ZIP con múltiples carpetas<br/><span className="text-xs text-gray-500">(Se usará el primer mundo que se encuentre)</span></h3>
             <div className="font-mono text-sm p-3 rounded border border-gray-200 flex-grow h-64 overflow-auto">
               <div>📁 server.zip</div>
+              <div className="ml-4">📁 config/</div>
               <div className="ml-4">📁 plugins/</div>
               <div className="ml-4">📁 world/</div>
               <div className="ml-8">📄 level.dat</div>
               <div className="ml-4">📁 world_nether/</div>
               <div className="ml-4">📄 paper.yml</div>
               <div className="ml-4">📄 server.properties</div>
-              <div className="ml-4">📁 config/</div>
               <div className="ml-4">📁 <i>Otros ficheros...</i></div>
             </div>
           </div>

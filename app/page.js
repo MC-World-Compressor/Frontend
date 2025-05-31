@@ -48,34 +48,35 @@ export default function Inicio() {
           <h2 className="text-3xl font-bold text-center mb-2">
             Antes y después
           </h2>
-          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>          <div className="space-y-10 mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+          <p className="text-center mb-12"><i>(Ejemplos reales)</i></p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="flex flex-col items-center">
                 {/* Antes */}
-                <div className="mb-6 md:mb-0 text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                <div className="text-center mb-2">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/logo.webp"
+                      src="/assets/img/WinÑAR.webp"
                       alt="Mundo sin comprimir"
                       fill
                       className="object-contain"
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">world_survival.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">small_world_survival.zip</p>
                   <p className="font-bold text-red-600 text-lg">24MB</p>
                 </div>
                 
                 {/* Flecha */}
-                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="my-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
                 
                 {/* Después */}
                 <div className="text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
                       alt="Mundo comprimido"
@@ -84,40 +85,40 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">world_survival_compressed.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">small_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">6MB</p>
                 </div>
+                <p className="text-center mt-3 text-blue-600 font-bold">75% menos</p>
               </div>
-              <p className="text-center mt-6 text-blue-600 font-bold text-xl">75% menos de espacio</p>
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="flex flex-col items-center">
                 {/* Antes */}
-                <div className="mb-6 md:mb-0 text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                <div className="text-center mb-2">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/logo.webp"
+                      src="/assets/img/WinÑAR.webp"
                       alt="Mundo sin comprimir"
                       fill
                       className="object-contain"
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">creative_world.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">medium_world.zip</p>
                   <p className="font-bold text-red-600 text-lg">94MB</p>
                 </div>
                 
                 {/* Flecha */}
-                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="my-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
                 
                 {/* Después */}
                 <div className="text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
                       alt="Mundo comprimido"
@@ -126,40 +127,40 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">creative_world_compressed.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">medium_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">29MB</p>
                 </div>
+                <p className="text-center mt-3 text-blue-600 font-bold">69% menos</p>
               </div>
-              <p className="text-center mt-6 text-blue-600 font-bold text-xl">69% menos de espacio</p>
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+            <div className="bg-white rounded-lg shadow-md p-4">
+              <div className="flex flex-col items-center">
                 {/* Antes */}
-                <div className="mb-6 md:mb-0 text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                <div className="text-center mb-2">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/logo.webp"
+                      src="/assets/img/WinÑAR.webp"
                       alt="Mundo sin comprimir"
                       fill
                       className="object-contain"
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">server_world.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">big_world.zip</p>
                   <p className="font-bold text-red-600 text-lg">1340MB</p>
                 </div>
                 
                 {/* Flecha */}
-                <div className="transform rotate-90 md:rotate-0 my-2 md:my-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                <div className="my-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                 </div>
                 
                 {/* Después */}
                 <div className="text-center">
-                  <div className="relative w-40 h-40 mx-auto">
+                  <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
                       alt="Mundo comprimido"
@@ -168,17 +169,17 @@ export default function Inicio() {
                       priority
                     />
                   </div>
-                  <p className="font-medium text-gray-700 mt-3">server_world_compressed.zip</p>
+                  <p className="font-medium text-gray-700 mt-2">big_world_compressed.zip</p>
                   <p className="font-bold text-green-600 text-lg">715MB</p>
                 </div>
+                <p className="text-center mt-3 text-blue-600 font-bold">47% menos</p>
               </div>
-              <p className="text-center mt-6 text-blue-600 font-bold text-xl">47% menos de espacio</p>
             </div>
           </div>
 
           <div className="bg-blue-600 text-white rounded-lg p-6 text-center">
             <p className="text-xl">
-              ¡Ahorra hasta un 85% de espacio en tus mundos de Minecraft!
+              ¡Ahorra cerca de un 50% de espacio en tus mundos de Minecraft!
             </p>
           </div>
         </div>
