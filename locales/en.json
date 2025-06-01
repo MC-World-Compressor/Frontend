@@ -1,0 +1,118 @@
+{
+  "home": {
+    "title": "Compress your Minecraft worlds",
+    "subtitle": "Reduce size by about",
+    "description": "Free and Online",
+    "cta": "Compress World",
+    "howItWorks": "How does compression work?",
+    "compression": {
+      "moreThanZip": "More than simple ZIP compression",
+      "intelligentAnalysis": "The compressor doesn't just create a ZIP file of your Minecraft world. It goes much further by intelligently analyzing your world's structure.",
+      "removeChunks": "Remove unused chunks:",
+      "removeChunksDesc": "Automatically identifies and removes all areas of the world that are not commonly used, significantly reducing file size.",
+      "result": "The result is about a 50% reduction in original size, keeping all gameplay and progress of your world intact.",
+      "howWeOptimize": "How we optimize your world:",
+      "steps": {
+        "analyze": "Analyze your world",
+        "analyzeDesc": "We examine the structure and detect unused areas",
+        "optimize": "Optimize content",
+        "optimizeDesc": "Unnecessary chunks and data are removed",
+        "compress": "Smart compression",
+        "compressDesc": "Apply advanced compression while maintaining compatibility",
+        "ready": "Ready to download",
+        "readyDesc": "Your world optimized, compressed and ready to download"
+      }
+    },
+    "beforeAfter": {
+      "title": "Before and after",
+      "subtitle": "(Real examples)",
+      "reduction": "less",
+      "summary": "Save about 50% space on your Minecraft worlds!"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions (FAQ)",
+      "free": {
+        "question": "Is it really free?",
+        "answer": "Yes, the Minecraft world compression service is completely free. There are no hidden costs or need to register to use it."
+      },
+      "sizeLimit": {
+        "question": "What's the size limit?",
+        "answer": "You can upload worlds up to 4GB in size. This limitation is to ensure fast and efficient service for all users."
+      },
+      "bedrock": {
+        "question": "Does it work with Bedrock?",
+        "answer": "No, currently the compressor only compresses Minecraft Java worlds 1.2.1 and later."
+      },
+      "time": {
+        "question": "How long are files kept?",
+        "answer": "Compressed worlds are stored for 1 hour after compression. After this time, they are automatically deleted from our servers to optimize storage."
+      },
+      "share": {
+        "question": "How can I share my compressed world?",
+        "answer": "Once the compression is complete, you'll be able to share a unique link with your friends.\nThis link will be valid for 1 hour after the compression is complete."
+      },
+      "security": {
+        "question": "Is it safe for my files?",
+        "answer": "Absolutely. Our service processes your files locally and then automatically deletes them after 1 hour. We don't store any personal information or keep copies of your worlds after that period."
+      }
+    },
+    "ctaSection": {
+      "title": "Ready to compress your Minecraft world?",
+      "subtitle": "Save space without losing quality",
+      "button": "Compress now"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "upload": "Upload World",
+    "language": "Language",
+    "compress": "Compress"
+  },
+  "upload": {
+    "title": "Upload Minecraft world",
+    "selectFile": "Select file",
+    "fileRequirements": "Only .zip files, maximum 4GB",
+    "processing": "Processing...",
+    "upload": "Upload",
+    "dragDrop": "Drag your file here or click to select",
+    "errors": {
+      "zipOnly": "Only .zip files are allowed",
+      "sizeLimit": "File cannot exceed 4GB",
+      "selectFile": "Please select a file"
+    }
+  },
+  "status": {
+    "title": "World status",
+    "processing": "Processing your world...",
+    "queue": "In queue: position",
+    "redirecting": "Redirecting to download...",
+    "ready": "Your world is ready to download!",
+    "expired": "Download link has expired",
+    "errors": {
+      "processing": "Error during world processing",
+      "notFound": "Could not find the world file",
+      "connection": "Connection error"
+    }
+  },
+  "download": {
+    "title": "Download your compressed world",
+    "downloadButton": "Download",
+    "worldInfo": "World information",
+    "originalSize": "Original size",
+    "compressedSize": "Compressed size",
+    "compressionRatio": "Compression",
+    "created": "Created",
+    "expires": "Expires"
+  },
+  "footer": {
+    "developedBy": "Developed by",
+    "rights": "All rights reserved"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "goHome": "Go home",
+    "uploadAnother": "Upload another world"
+  }
+}

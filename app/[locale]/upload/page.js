@@ -3,22 +3,32 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function HomePage() {
+export default function HomePage({ params }) {
   const [fichero, setFichero] = useState(null);
   const [subiendo, setSubiendo] = useState(false);
   const [progresoSubida, setProgresoSubida] = useState(0);
   const [serverId, setServerId] = useState(null);
   const [error, setError] = useState(null);
+  const [locale, setLocale] = useState(null);
   const router = useRouter();
 
+  // Obtener el locale de forma asíncrona
   useEffect(() => {
-    if (serverId) {
+    const getLocale = async () => {
+      const resolvedParams = await params;
+      setLocale(resolvedParams.locale);
+    };
+    getLocale();
+  }, [params]);
+
+  useEffect(() => {
+    if (serverId && locale) {
       const timer = setTimeout(() => {
-        router.push(`/status/${serverId}`);
+        router.push(`/${locale}/status/${serverId}`);
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [serverId, router]);
+  }, [serverId, router, locale]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

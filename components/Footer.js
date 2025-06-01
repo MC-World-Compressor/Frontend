@@ -1,5 +1,7 @@
 
-export default function Footer() {
+import { getPageTranslations } from '@/lib/translations';
+export default function Footer({ locale = 'es' }) {
+  const t = getPageTranslations(locale, 'footer');
   const currentYear = new Date().getFullYear();
   
   return (
@@ -16,8 +18,8 @@ export default function Footer() {
           </div>
           
           <div className="text-center md:text-right text-sm text-gray-600 dark:text-gray-400">
-            <p>Desarrollado por <u><a href="https://github.com/Papela" target="_blank" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Papela</a></u></p>
-            <p className="mt-1">&copy; {currentYear} MC World Compressor. Todos los derechos reservados.</p>
+            <p>{t.developedBy} <u><a href="https://github.com/Papela" target="_blank" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Papela</a></u></p>
+            <p className="mt-1">&copy; {currentYear} MC World Compressor. {t.rights}</p>
           </div>
         </div>
       </div>

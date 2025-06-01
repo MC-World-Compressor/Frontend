@@ -4,8 +4,7 @@ import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function DownloadPage({ params }) {
-  const parametros = use(params);
-  const { id } = parametros;
+  const [parametros, setParametros] = useState(null);
   const [linkDescarga, setLinkDescarga] = useState(null);
   const [fechaExpiracion, setFechaExpiracion] = useState(null);
   const [fechaCreacion, setFechaCreacion] = useState(null);
@@ -13,24 +12,33 @@ export default function DownloadPage({ params }) {
   const [tamanoFinal, setTamanoFinal] = useState(null);
   const [nombreMundo, setNombreMundo] = useState(null);
   const [nombreMundoOriginal, setNombreMundoOriginal] = useState(null);
-  const [error, setError] = useState(null);
-  const [mostrarTooltip, setMostrarTooltip] = useState(false);
+  const [error, setError] = useState(null);  const [mostrarTooltip, setMostrarTooltip] = useState(false);
   const router = useRouter();
 
+  // Obtener los parámetros de forma asíncrona
   useEffect(() => {
-    const fetchDownloadUrl = async () => {
+    const getParams = async () => {
+      const resolvedParams = await params;
+      setParametros(resolvedParams);
+    };
+    getParams();
+  }, [params]);
+
+  useEffect(() => {
+    if (!parametros) return;
+    
+    const { id } = parametros;    const fetchDownloadUrl = async () => {
       try {
-        const res = await fetch(`/api/proxy/estado/${id}`);
+        const res = await fetch(`/api/proxy/estado/${parametros.id}`);
         
         if (!res.ok) {
-          router.push(`/status/${id}`);
+          router.push(`/${parametros.locale}/status/${parametros.id}`);
           throw new Error(`Error al obtener el estado del mundo: ${res.statusText}`);
         }
         
         const data = await res.json();
-        
-        if (data.estado !== 'listo') {
-          router.push(`/status/${id}`);
+          if (data.estado !== 'listo') {
+          router.push(`/${parametros.locale}/status/${parametros.id}`);
           return;
         }
         
@@ -49,12 +57,12 @@ export default function DownloadPage({ params }) {
       } catch (e) {
         setError(e.message);
         setTimeout(() => {
-          router.push(`/status/${id}`);
+          router.push(`/${parametros.locale}/status/${parametros.id}`);
         }, 2000);
       }
     };
     fetchDownloadUrl();
-  }, [id]);
+  }, [parametros, router]);
 
   const formatearTamano = (tamanoMB) => {
     if (tamanoMB >= 1024) {

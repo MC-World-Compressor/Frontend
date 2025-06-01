@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -21,8 +20,8 @@ const procesarCola = (colaData) => {
 };
 
 export default function StatusPage({ params }) {
-  const parametros = use(params);
-  const { id } = parametros;  const [estado, setEstado] = useState('Cargando...');
+  const [parametros, setParametros] = useState(null);
+  const [estado, setEstado] = useState('Cargando...');
   const [cola, setCola] = useState(null);
   const [error, setError] = useState(null);
   const [tipoError, setTipoError] = useState(null);
@@ -30,7 +29,20 @@ export default function StatusPage({ params }) {
   const [infoMundo, setInfoMundo] = useState(null);
   const router = useRouter();
 
+  // Obtener los parámetros de forma asíncrona
   useEffect(() => {
+    const getParams = async () => {
+      const resolvedParams = await params;
+      setParametros(resolvedParams);
+    };
+    getParams();
+  }, [params]);
+
+  useEffect(() => {
+    if (!parametros) return;
+    
+    const { id, locale } = parametros;
+    
     let interval;
     let estaFecheando = false;
     let parado = false;
@@ -47,9 +59,8 @@ export default function StatusPage({ params }) {
         if (data.estado === 'listo') {
           parado = true;
           clearInterval(interval);
-          setRedireccionando(true);
-          setTimeout(() => {
-            router.push(`/download/${id}`);
+          setRedireccionando(true);          setTimeout(() => {
+            router.push(`/${locale}/download/${id}`);
           }, 3000); // Redireccionar después de 3 segundos
 
         } else if (data.estado && data.estado.startsWith('error')) {
@@ -81,7 +92,8 @@ export default function StatusPage({ params }) {
 
         } else if (data.estado === 'procesando') {
           setCola(0);
-          setError(null);        } else if (data.estado === 'expirado') {
+          setError(null);
+        } else if (data.estado === 'expirado') {
           setInfoMundo({
             fechaCreacion: data.fecha_creacion,
             fechaExpiracion: data.fecha_expiracion,
@@ -105,12 +117,11 @@ export default function StatusPage({ params }) {
 
     fetchEstado();
     interval = setInterval(fetchEstado, 5000);
-
     return () => {
       parado = true;
       clearInterval(interval);
     };
-  }, [id, router]);
+  }, [parametros, router]);
   
   const renderContactoInfo = () => (
     <div className="bg-blue-50 dark:bg-blue-900/20 rounded-md p-4 mt-3 border border-blue-200 dark:border-blue-800">
@@ -151,8 +162,11 @@ export default function StatusPage({ params }) {
       </div>
     </div>
   );
-
   const renderEstadoMensaje = () => {
+    if (!parametros) return null;
+    
+    const { id, locale } = parametros;
+    
     switch (estado) {
       case 'pendiente':
         return (
@@ -234,7 +248,7 @@ export default function StatusPage({ params }) {
                 <p className="text-xs text-green-600 dark:text-green-400 mt-1">
                   {redireccionando ? "Te llevaremos a la página de descarga automáticamente." : "Haz clic en el botón para acceder a la descarga."}
                 </p>
-                <Link href={`/download/${id}`} className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                <Link href={`/${locale}/download/${id}`} className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
                   <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
@@ -328,13 +342,13 @@ export default function StatusPage({ params }) {
               </p>
               
               <div className="flex space-x-3">
-                <Link href="/upload" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <Link href={`/${locale}/upload`} className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                   <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   Comprimir nuevo mundo
                 </Link>
-                <Link href="/" className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                   Volver al inicio
                 </Link>
               </div>
@@ -378,13 +392,13 @@ export default function StatusPage({ params }) {
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-3">
-                  <Link href="/upload" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                  <Link href={`/${locale}/upload`} className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                     Subir otro mundo
                   </Link>
-                  <Link href="/" className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                  <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Volver al inicio
                   </Link>
                 </div>
@@ -442,13 +456,13 @@ export default function StatusPage({ params }) {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-3">
-              <Link href="/upload" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+              <Link href={`/${locale}/upload`} className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                 <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
                 Subir otro mundo
               </Link>
-              <Link href="/" className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+              <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Volver al inicio
               </Link>
             </div>

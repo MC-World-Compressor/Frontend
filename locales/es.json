@@ -1,0 +1,118 @@
+{
+  "home": {
+    "title": "Comprime tus mundos de Minecraft",
+    "subtitle": "Reduce el tamaño cerca de un",
+    "description": "Gratis y Online",
+    "cta": "Comprimir Mundo",
+    "howItWorks": "¿Cómo funciona la compresión?",
+    "compression": {
+      "moreThanZip": "Más que una simple compresión ZIP",
+      "intelligentAnalysis": "El compresor no solo crea un archivo ZIP de tu mundo de Minecraft. Va mucho más allá analizando inteligentemente la estructura de tu mundo.",
+      "removeChunks": "Elimina chunks no utilizados:",
+      "removeChunksDesc": "Identifica y remueve automáticamente todas las áreas del mundo que no se usan habitualmente, reduciendo significativamente el tamaño del archivo.",
+      "result": "El resultado es una reducción cerca del 50% del tamaño original, manteniendo intacta toda la jugabilidad y progreso de tu mundo.",
+      "howWeOptimize": "Cómo optimizamos tu mundo:",
+      "steps": {
+        "analyze": "Analizamos tu mundo",
+        "analyzeDesc": "Examinamos la estructura y detectamos áreas no utilizadas",
+        "optimize": "Optimizamos el contenido",
+        "optimizeDesc": "Eliminamos los chunks y datos innecesarios",
+        "compress": "Comprimimos inteligentemente",
+        "compressDesc": "Aplicamos compresión avanzada manteniendo la compatibilidad",
+        "ready": "Descarga lista",
+        "readyDesc": "Tu mundo optimizado, comprimido y listo para descargar"
+      }
+    },
+    "beforeAfter": {
+      "title": "Antes y después",
+      "subtitle": "(Ejemplos reales)",
+      "reduction": "menos",
+      "summary": "¡Ahorra cerca de un 50% de espacio en tus mundos de Minecraft!"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes (FAQ)",
+      "free": {
+        "question": "¿Es realmente gratis?",
+        "answer": "Sí, el servicio de compresión de mundos de Minecraft es completamente gratuito. No hay costes ocultos ni necesidad de registrarse para usarlo."
+      },
+      "sizeLimit": {
+        "question": "¿Cuál es el límite de tamaño?",
+        "answer": "Puedes subir mundos de hasta 4GB de tamaño. Esta limitación es para garantizar un servicio rápido y eficiente para todos los usuarios."
+      },
+      "bedrock": {
+        "question": "¿Funciona con Bedrock?",
+        "answer": "No, actualmente el compresor solo comprime mundos de Minecraft Java 1.2.1 en adelante."
+      },
+      "time": {
+        "question": "¿Cuánto tiempo se guardan los archivos?",
+        "answer": "Los mundos comprimidos se almacenan durante 1 hora después de la compresión. Después de este tiempo, se eliminan automáticamente de nuestros servidores para optimizar el almacenamiento."
+      },
+      "share": {
+        "question": "¿Cómo puedo compartir mi mundo comprimido?",
+        "answer": "Una vez completada la compresión, podras compartir un enlace único con tus amigos.\nEste enlace será válido durante 1 hora desde que termine la compresión."
+      },
+      "security": {
+        "question": "¿Es seguro para mis archivos?",
+        "answer": "Absolutamente. Nuestro servicio procesa tus archivos localmente y luego los elimina automáticamente después de 1 hora. No almacenamos ninguna información personal ni mantenemos copias de tus mundos después de ese período."
+      }
+    },
+    "ctaSection": {
+      "title": "¿Listo para comprimir tu mundo de Minecraft?",
+      "subtitle": "Ahorra espacio sin perder calidad",
+      "button": "Comprimir ahora"
+    }
+  },
+  "nav": {
+    "home": "Inicio",
+    "upload": "Subir Mundo",
+    "language": "Idioma",
+    "compress": "Comprimir"
+  },
+  "upload": {
+    "title": "Subir mundo de Minecraft",
+    "selectFile": "Seleccionar archivo",
+    "fileRequirements": "Solo archivos .zip, máximo 4GB",
+    "processing": "Procesando...",
+    "upload": "Subir",
+    "dragDrop": "Arrastra tu archivo aquí o haz clic para seleccionar",
+    "errors": {
+      "zipOnly": "Solo se permiten archivos .zip",
+      "sizeLimit": "El archivo no puede superar los 4GB",
+      "selectFile": "Por favor selecciona un archivo"
+    }
+  },
+  "status": {
+    "title": "Estado del mundo",
+    "processing": "Procesando tu mundo...",
+    "queue": "En cola: posición",
+    "redirecting": "Redirigiendo a descarga...",
+    "ready": "¡Tu mundo está listo para descargar!",
+    "expired": "El enlace de descarga ha expirado",
+    "errors": {
+      "processing": "Error durante el procesamiento del mundo",
+      "notFound": "No se pudo encontrar el archivo del mundo",
+      "connection": "Error de conexión"
+    }
+  },
+  "download": {
+    "title": "Descarga tu mundo comprimido",
+    "downloadButton": "Descargar",
+    "worldInfo": "Información del mundo",
+    "originalSize": "Tamaño original",
+    "compressedSize": "Tamaño comprimido",
+    "compressionRatio": "Compresión",
+    "created": "Creado",
+    "expires": "Expira"
+  },
+  "footer": {
+    "developedBy": "Desarrollado por",
+    "rights": "Todos los derechos reservados"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "goHome": "Volver al inicio",
+    "uploadAnother": "Subir otro mundo"
+  }
+}
