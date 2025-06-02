@@ -69,16 +69,36 @@
     "compress": "Comprimir"
   },
   "upload": {
-    "title": "Subir mundo de Minecraft",
+    "title": "Comprime tu mundo de Minecraft",
+    "description": "Subir mundo de Minecraft",
     "selectFile": "Seleccionar archivo",
+    "fileSelected": "Archivo seleccionado",
     "fileRequirements": "Solo archivos .zip, máximo 4GB",
-    "processing": "Procesando...",
-    "upload": "Subir",
+    "uploading": "Subiendo...",
+    "upload": "Comprimir Mundo",
+    "uploaded": "¡Mundo subido con éxito!",
+    "redirecting": "Redirigiendo automáticamente a la página de estado...",
+    "clickToRedirect":"Haz clic aquí si no eres redirigido automáticamente",
     "dragDrop": "Arrastra tu archivo aquí o haz clic para seleccionar",
+    "orCondition": "O",
+    "howToCompress": "¿Cómo comprimir tu mundo de Minecraft?",
+    "compressMethods":{
+      "title": "Estas son las 3 estructuras válidas para tu archivo ZIP",
+      "otherFiles": "Otros ficheros...",
+      "method1": "ZIP con carpeta del mundo en el interior del ZIP.",
+      "method2": "ZIP con los archivos directamente.",
+      "method3": "ZIP con múltiples carpetas",
+      "method3Subtitle": "Se usará el primer mundo que se encuentre"
+    },
+    "subtitle1": "El sistema detectará automáticamente la estructura de tu ZIP y procesará el mundo correctamente.",
+    "subtitle2": "El nombre del mundo no tiene porque ser 'world' y la manera en el que el sistema devuelve el resultado es con la primera estructua (ZIP, carpeta, contenido del mundo).",
     "errors": {
       "zipOnly": "Solo se permiten archivos .zip",
       "sizeLimit": "El archivo no puede superar los 4GB",
-      "selectFile": "Por favor selecciona un archivo"
+      "selectFile": "Por favor selecciona un archivo",
+      "processResponse": "Error al procesar la respuesta",
+      "uploadFailed": "Error al subir el archivo, por favor inténtalo de nuevo",
+      "connectionError": "Error de conexión, por favor verifica tu conexión a Internet"
     }
   },
   "status": {
