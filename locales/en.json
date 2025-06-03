@@ -177,6 +177,25 @@
     "developedBy": "Developed by",
     "rights": "All rights reserved"
   },
+  "notFound": {
+    "title": "Page not found",
+    "mainTitle": "Home page",
+    "mainDescription": "Return to the home page to compress worlds",
+    "faqTitle": "FAQ",
+    "uploadWorldTitle": "Upload world",
+    "uploadWorldDescription": "Compress your Minecraft world",
+    "faqDescription": "Find answers to frequently asked questions",
+    "subtitle": "Oops! It looks like this page got lost in the Minecraft world",
+    "description": "The page you're looking for doesn't exist or has been moved. The link might be broken or you may have mistyped the address.",
+    "goHome": "Go back home",
+    "contactInfo": "Contact information",
+    "needHelp": "Need help? Don't hesitate to contact us",
+    "errorCode": "Error 404",
+    "helpfulLinks": {
+      "title": "Helpful links",
+      "description": "Here are some links that might help you"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "otherFiles": "Other files...",

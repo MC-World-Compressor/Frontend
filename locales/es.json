@@ -177,6 +177,25 @@
     "developedBy": "Desarrollado por",
     "rights": "Todos los derechos reservados"
   },
+  "notFound": {
+    "title": "Página no encontrada",
+    "mainTitle": "Página principal",
+    "mainDescription": "Vuelve a la página principal para comprimir mundos",
+    "faqTitle": "Preguntas frecuentes",
+    "uploadWorldTitle": "Subir mundo",
+    "uploadWorldDescription": "Comprime tu mundo de Minecraft",
+    "faqDescription": "Encuentra respuestas a preguntas frecuentes",
+    "subtitle": "¡Ups! Parece que esta página se ha perdido en el mundo de Minecraft",
+    "description": "La página que buscas no existe o ha sido movida. Puede que el enlace esté roto o que hayas escrito mal la dirección.",
+    "goHome": "Volver al inicio",
+    "contactInfo": "Información de contacto",
+    "needHelp": "¿Necesitas ayuda? No dudes en contactarnos",
+    "errorCode": "Error 404",
+    "helpfulLinks": {
+      "title": "Enlaces útiles",
+      "description": "Aquí tienes algunos enlaces que podrían ayudarte"
+    }
+  },
   "common": {
     "loading": "Cargando...",
     "otherFiles": "Otros ficheros...",
