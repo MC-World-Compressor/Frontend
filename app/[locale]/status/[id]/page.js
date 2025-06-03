@@ -23,7 +23,7 @@ const procesarCola = (colaData) => {
 export default function StatusPage({ params }) {
   const [parametros, setParametros] = useState(null);
   const [locale, setLocale] = useState(null);
-  const { t } = useTranslations(locale || 'es');
+  const { t } = useTranslations(locale || 'en');
   const [estado, setEstado] = useState(t('status.loading'));
   const [cola, setCola] = useState(null);
   const [error, setError] = useState(null);
@@ -33,17 +33,12 @@ export default function StatusPage({ params }) {
   const router = useRouter();
 
   useEffect(() => {
-    const getLocale = async () => {
+    const getParamsAndLocale = async () => {
       const resolvedParams = await params;
       setLocale(resolvedParams.locale);
-    };
-    getLocale();
-    
-    const getParams = async () => {
-      const resolvedParams = await params;
       setParametros(resolvedParams);
     };
-    getParams();
+    getParamsAndLocale();
   }, [params]);
 
   useEffect(() => {
@@ -61,8 +56,19 @@ export default function StatusPage({ params }) {
       try {
         console.info(t('status.updatingData'));
         const res = await fetch(`/api/proxy/estado/${id}`);
+        // Si la respuesta es 404
+        if (res.status === 404) {
+          const data = await res.json();
+            setError(t('status.errors.serverNotFound'));
+            setTipoError('error_servidor_no_encontrado');
+            setCola(0);
+            parado = true;
+            clearInterval(interval);
+            return;
+          
+        }
         const data = await res.json();
-        if (!res.ok && !data.estado.startsWith('error')) throw new Error('Error al obtener el estado');
+        if (!res.ok && !data.estado?.startsWith('error')) throw new Error('Error al obtener el estado');
         setEstado(data.estado);
         if (data.estado === 'listo') {
           parado = true;
@@ -378,19 +384,24 @@ export default function StatusPage({ params }) {
                   </div>
                   <div className="ml-3">
                     <h3 className="font-medium text-red-800 dark:text-red-200">
-                      {t('status.errors.processingSimple')}
+                      {tipoError === 'error_servidor_no_encontrado'
+                        ? t('status.errors.serverNotFoundTitle')
+                        : t('status.errors.processingSimple')}
                     </h3>
                   </div>
                 </div>
                 
                 <div className="mb-4">
                   <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-                    {tipoError === 'error_procesamiento' 
-                      ? t('status.errors.processing')
-                      : tipoError === 'error_procesamiento_no_encontrado'
-                      ? t('status.errors.notFound')
-                      : tipoError === 'error_conexion'
-                      ? t('status.errors.connection') : t('status.errors.error')
+                    {tipoError === 'error_servidor_no_encontrado'
+                      ? t('status.errors.serverNotFound')
+                      : tipoError === 'error_procesamiento' 
+                        ? t('status.errors.processing')
+                        : tipoError === 'error_procesamiento_no_encontrado'
+                        ? t('status.errors.notFound')
+                        : tipoError === 'error_conexion'
+                        ? t('status.errors.connection') 
+                        : t('status.errors.error')
                     }
                   </p>
                   

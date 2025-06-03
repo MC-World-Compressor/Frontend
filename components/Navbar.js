@@ -3,7 +3,7 @@ import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { getPageTranslations } from '@/lib/translations';
 
-export default function Navbar({ locale = 'es' }) {
+export default function Navbar({ locale = 'en' }) {
     const t = getPageTranslations(locale, 'nav');
 
     return (

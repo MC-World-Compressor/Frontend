@@ -136,7 +136,9 @@
       "notFound": "No se pudo encontrar el archivo del mundo para procesar. Es posible que haya expirado o no exista. Prueba a volver a intentarlo",
       "connection": "Error de conexión. Prueba a volver a intentarlo",
       "error": "Ha ocurrido un error inesperado durante el procesamiento. Por favor, intenta de nuevo o contacta con soporte.",
-      "code": "Código de error"
+      "code": "Código de error",
+      "serverNotFound": "No se ha encontrado el servidor con ese ID. Por favor, revisa el enlace o vuelve a intentarlo.",
+      "serverNotFoundTitle": "Servidor no encontrado"
     },
     "info":{
       "helpContact": "¿Necesitas ayuda? Contáctanos"

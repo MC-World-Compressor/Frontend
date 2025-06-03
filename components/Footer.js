@@ -1,6 +1,6 @@
 
 import { getPageTranslations } from '@/lib/translations';
-export default function Footer({ locale = 'es' }) {
+export default function Footer({ locale = 'en' }) {
   const t = getPageTranslations(locale, 'footer');
   const currentYear = new Date().getFullYear();
   

@@ -14,10 +14,11 @@ function getLocale(request) {
   const acceptLanguage = request.headers.get('accept-language');
   
   if (acceptLanguage) {
-    // Buscar coincidencias con los idiomas soportados
-    for (const locale of i18n.locales) {
-      if (acceptLanguage.toLowerCase().includes(locale.toLowerCase())) {
-        return locale;
+    // Extraer los idiomas del header y buscar el primero soportado
+    const accepted = acceptLanguage.split(',').map(l => l.split(';')[0].trim().slice(0,2));
+    for (const lang of accepted) {
+      if (i18n.locales.includes(lang)) {
+        return lang;
       }
     }
   }
@@ -37,11 +38,14 @@ export function middleware(request) {
   // Redireccionar si no hay locale en la URL
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-    
-    // Redireccionar a la URL con el locale
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
-    );
+    if (pathname === '/' || pathname === '') {
+      return NextResponse.redirect(new URL(`/${locale}`, request.url));
+    }
+    let newPath = `/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`;
+    if (newPath === `/${locale}`) {
+      newPath = `/${locale}/`;
+    }
+    return NextResponse.redirect(new URL(newPath, request.url));
   }
 }
 

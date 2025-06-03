@@ -136,7 +136,9 @@
       "notFound": "The world file could not be found for processing. It may have expired or not exist. Please try again.",
       "connection": "Connection error. Please try again.",
       "error": "An unexpected error occurred during processing. Please try again or contact support.",
-      "code": "Error code"
+      "code": "Error code",
+      "serverNotFound": "Server with that ID was not found. Please check the link or try again.",
+      "serverNotFoundTitle": "Server not found"
     },
     "info": {
       "helpContact": "Need help? Contact us"

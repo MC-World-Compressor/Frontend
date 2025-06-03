@@ -12,7 +12,7 @@ export default function HomePage({ params }) {
   const [error, setError] = useState(null);
   const [locale, setLocale] = useState(null);
   const router = useRouter();
-  const { t } = useTranslations(locale || 'es');
+  const { t } = useTranslations(locale || 'en');
 
   // Obtener el locale de forma asíncrona
   useEffect(() => {

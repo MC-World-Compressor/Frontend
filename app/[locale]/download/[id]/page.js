@@ -7,7 +7,7 @@ import { useTranslations } from '@/lib/translations';
 export default function DownloadPage({ params }) {
   const [parametros, setParametros] = useState(null);
   const [locale, setLocale] = useState(null);
-  const { t } = useTranslations(locale || 'es');
+  const { t } = useTranslations(locale || 'en');
   const [linkDescarga, setLinkDescarga] = useState(null);
   const [fechaExpiracion, setFechaExpiracion] = useState(null);
   const [fechaCreacion, setFechaCreacion] = useState(null);
@@ -20,17 +20,12 @@ export default function DownloadPage({ params }) {
 
   // Obtener los parámetros de forma asíncrona
   useEffect(() => {
-    const getLocale = async () => {
+    const getParamsAndLocale = async () => {
       const resolvedParams = await params;
       setLocale(resolvedParams.locale);
-    };
-    getLocale();
-
-    const getParams = async () => {
-      const resolvedParams = await params;
       setParametros(resolvedParams);
     };
-    getParams();
+    getParamsAndLocale();
   }, [params]);
 
   useEffect(() => {
