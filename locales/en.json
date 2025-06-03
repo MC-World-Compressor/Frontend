@@ -84,7 +84,6 @@
   "howToCompress": "How to compress your Minecraft world?",
   "compressMethods": {
     "title": "These are the 3 valid structures for your ZIP file",
-    "otherFiles": "Other files...",
     "method1": "ZIP with the world folder inside the ZIP.",
     "method2": "ZIP with the world files directly.",
     "method3": "ZIP with multiple folders",
@@ -102,27 +101,75 @@
   }
 },
   "status": {
-    "title": "World status",
-    "processing": "Processing your world...",
-    "queue": "In queue: position",
-    "redirecting": "Redirecting to download...",
+    "title": "World Status",
+    "currentStatus": "Current Status",
+    "processing": "Your world is currently being processed. This may take a few minutes.",
+    "loading": "Loading...",
+    "updatingData": "Updating data...",
+    "calculateQueue": "Calculating queue position...",
+    "loadingStatus": "Loading status information...",
+    "queuePosition": "Queue position",
+    "queue": "Your world is in the processing queue.",
+    "queuePositionTotal": "Position {{posicion}} of {{total}} in queue",
+    "redirecting": "Redirecting...",
+    "redirectClick": "Click the button to access the download.",
+    "redirectAuto": "We'll take you to the download page automatically.",
+    "uploadOtherWorld": "Upload another world",
     "ready": "Your world is ready to download!",
-    "expired": "Download link has expired",
+    "goBack": "Go back to start",
+    "goToDownload": "Go to download",
+    "linkExpired": "The download link has expired. You can compress a new world to get a valid download link.",
+    "expired": {
+      "title": "The download link has expired",
+      "info": "Expired world information",
+      "createdDate": "Creation date",
+      "expiredDate": "Expiration date",
+      "originalSize": "Original size",
+      "compressedSize": "Compressed size",
+      "compressedRatio": "Compression achieved",
+      "rediction": "reduction"
+    },
+    "compressNewWorld": "Compress new world",
     "errors": {
-      "processing": "Error during world processing",
-      "notFound": "Could not find the world file",
-      "connection": "Connection error"
+      "processing": "Error during world processing. The file may be corrupted or not a valid Minecraft world.",
+      "processingSimple": "Processing error",
+      "notFound": "The world file could not be found for processing. It may have expired or not exist. Please try again.",
+      "connection": "Connection error. Please try again.",
+      "error": "An unexpected error occurred during processing. Please try again or contact support.",
+      "code": "Error code"
+    },
+    "info": {
+      "helpContact": "Need help? Contact us"
+    },
+    "status": {
+      "processing": "Processing",
+      "ready": "Completed",
+      "pending": "Pending",
+      "expired": "Expired",
+      "error": "Error"
     }
   },
   "download": {
-    "title": "Download your compressed world",
+    "title": "Download Your Compressed World",
+    "yourWorld": "Your world",
+    "itsReady": "is ready!",
+    "loadinDownloadLink": "Loading download link...",
+    "createdDate": "Upload date",
+    "expiredDate": "Available until",
     "downloadButton": "Download",
     "worldInfo": "World information",
     "originalSize": "Original size",
     "compressedSize": "Compressed size",
-    "compressionRatio": "Compression",
+    "compressionRatio": "A <b>{{porcentaje}}%</b> compression has been achieved",
     "created": "Created",
-    "expires": "Expires"
+    "expires": "Expires",
+    "tooltip": "This is an approximate date. The link may expire shortly after the indicated time.",
+    "fileStructure": "Downloaded file structure",
+    "downloadInfo": "The file will be downloaded in ZIP format containing a folder with all the world files.",
+    "share": "Share this world with your friends!",
+    "takeAdvantage": "You can take advantage of this link before it expires to share the world.",
+    "linkAvailableUntil": "The link will be available until",
+    "approximately": "approximately"
   },
   "footer": {
     "developedBy": "Developed by",
@@ -130,6 +177,7 @@
   },
   "common": {
     "loading": "Loading...",
+    "otherFiles": "Other files...",
     "error": "Error",
     "retry": "Retry",
     "goHome": "Go home",

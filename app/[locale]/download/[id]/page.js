@@ -2,9 +2,12 @@
 
 import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from '@/lib/translations';
 
 export default function DownloadPage({ params }) {
   const [parametros, setParametros] = useState(null);
+  const [locale, setLocale] = useState(null);
+  const { t } = useTranslations(locale || 'es');
   const [linkDescarga, setLinkDescarga] = useState(null);
   const [fechaExpiracion, setFechaExpiracion] = useState(null);
   const [fechaCreacion, setFechaCreacion] = useState(null);
@@ -17,6 +20,12 @@ export default function DownloadPage({ params }) {
 
   // Obtener los parámetros de forma asíncrona
   useEffect(() => {
+    const getLocale = async () => {
+      const resolvedParams = await params;
+      setLocale(resolvedParams.locale);
+    };
+    getLocale();
+
     const getParams = async () => {
       const resolvedParams = await params;
       setParametros(resolvedParams);
@@ -27,7 +36,8 @@ export default function DownloadPage({ params }) {
   useEffect(() => {
     if (!parametros) return;
     
-    const { id } = parametros;    const fetchDownloadUrl = async () => {
+    const { id } = parametros;
+    const fetchDownloadUrl = async () => {
       try {
         const res = await fetch(`/api/proxy/estado/${parametros.id}`);
         
@@ -90,30 +100,30 @@ export default function DownloadPage({ params }) {
 
   return (
     <main className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Descarga tu mundo comprimido</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('download.title')}</h1>
       {error && <p className="text-red-600 dark:text-red-400">{error}</p>}
       {linkDescarga ? (
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-              {nombreMundo ? 'Tu mundo ' + nombreMundo : 'Tu mundo'} está listo
+              {nombreMundo ? t('download.yourWorld') + " " + nombreMundo : t('download.yourWorld') + " "} {t('download.itsReady')}
             </h2>
             
             <div className="grid grid-cols-2 gap-2 text-sm mb-3">
               <div>
-                <p className="font-medium text-gray-700 dark:text-gray-300">Tamaño original:</p>
+                <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.originalSize')}:</p>
                 <p className="text-gray-600 dark:text-gray-400">{tamanoInicio ? formatearTamano(tamanoInicio) : 'Desconocido'}</p>
               </div>
               <div>
-                <p className="font-medium text-gray-700 dark:text-gray-300">Tamaño comprimido:</p>
+                <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.compressedSize')}:</p>
                 <p className="text-gray-600 dark:text-gray-400">{tamanoFinal ? formatearTamano(tamanoFinal) : 'Desconocido'}</p>
               </div>
               <div>
-                <p className="font-medium text-gray-700 dark:text-gray-300">Fecha de subida:</p>
+                <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.createdDate')}:</p>
                 <p className="text-gray-600 dark:text-gray-400">{formatearFecha(fechaCreacion)}</p>
               </div>
               <div>
-                <p className="font-medium text-gray-700 dark:text-gray-300">Disponible hasta:</p>
+                <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.expiredDate')}:</p>
                 <div className="flex items-center">
                   <p className="text-amber-600 dark:text-amber-400 font-medium">{formatearFecha(fechaExpiracion)}</p>
                   <div className="relative ml-1">
@@ -135,7 +145,7 @@ export default function DownloadPage({ params }) {
                       </svg>
                       {mostrarTooltip && (
                         <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 md:bottom-full bg-gray-800 dark:bg-gray-700 text-white text-xs rounded py-1 px-2 w-56 z-20">
-                          Esta es una fecha aproximada. El enlace podría expirar un poco después de lo indicado.
+                          {t('download.tooltip')}
                           <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
                         </div>
                       )}
@@ -146,9 +156,12 @@ export default function DownloadPage({ params }) {
             </div>
             
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded p-2 mb-4">
-              <p className="text-blue-800 dark:text-blue-300 text-sm">
-                Se ha logrado una compresión del <span className="font-bold">{porcentajeCompresion}%</span>
-              </p>
+              <p
+                className="text-blue-800 dark:text-blue-300 text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: t('download.compressionRatio', { porcentaje: porcentajeCompresion })
+                }}
+              />
             </div>
 
             <button
@@ -161,34 +174,34 @@ export default function DownloadPage({ params }) {
                 }
               }}
             >
-              Descargar Mundo
+              {t('download.downloadButton')}
             </button>
             
             <div className="text-sm bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600 mb-3">
-              <p className="mb-1 font-medium text-gray-700 dark:text-gray-300">Estructura del archivo descargado</p>
+              <p className="mb-1 font-medium text-gray-700 dark:text-gray-300">{t('download.fileStructure')}</p>
               <div className="flex items-start">
                 <div className="font-mono text-xs p-2 rounded bg-gray-100 dark:bg-gray-600 flex-grow overflow-auto">
-                  <div className="text-gray-800 dark:text-gray-200">📁 <span className="text-blue-600 dark:text-blue-400">{nombreMundoOriginal}</span></div>
-                  <div className="ml-4 text-gray-800 dark:text-gray-200">📁 <span className="text-green-600 dark:text-green-400">{nombreMundo.replace("_compressed", "")}/</span></div>
+                  <div className="text-gray-800 dark:text-gray-200">📁 <span className="text-blue-600 dark:text-blue-400">{nombreMundoOriginal || 'world.zip'}</span></div>
+                  <div className="ml-4 text-gray-800 dark:text-gray-200">📁 <span className="text-green-600 dark:text-green-400">{nombreMundo.replace("_compressed", "") || 'world'}/</span></div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📄 level.dat</div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📄 level.dat_old</div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📁 region/</div>
                   <div className="ml-12 text-gray-700 dark:text-gray-300">📄 r.0.0.mca ...</div>
-                  <div className="ml-8 text-gray-700 dark:text-gray-300">📁 <i>Otros ficheros...</i></div>
+                  <div className="ml-8 text-gray-700 dark:text-gray-300">📁 <i>{t('common.otherFiles')}</i></div>
                 </div>
               </div>
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">El archivo se descargará con formato ZIP conteniendo una carpeta con todos los archivos del mundo.</p>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{t('download.downloadInfo')}</p>
             </div>
             
             <div className="text-sm text-gray-600 dark:text-gray-400 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg border border-yellow-200 dark:border-yellow-700">
               <p className="mb-1">
-                <span className="font-medium">¡Comparte este mundo con tus amigos!</span> Puedes aprovechar este enlace antes de que caduque para compartir el mundo.
+                <span className="font-medium">{t('download.share')}</span> {t('download.takeAdvantage')}
               </p>
               <div>
                 <p className="flex flex-wrap items-center">
-                  <span>El enlace estará disponible hasta: </span>
+                  <span>{t('download.linkAvailableUntil')}: </span>
                   <span className="ml-1">{formatearFecha(fechaExpiracion)}</span>
-                  <span className="text-xs text-amber-600 dark:text-amber-400 ml-1 block sm:inline">(aproximadamente)</span>
+                  <span className="text-xs text-amber-600 dark:text-amber-400 ml-1 block sm:inline">({t('download.approximately')})</span>
                 </p>
               </div>
             </div>
@@ -197,7 +210,7 @@ export default function DownloadPage({ params }) {
       ) : (
         <div className="flex justify-center items-center p-10">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500"></div>
-          <p className="ml-3 text-gray-700 dark:text-gray-300">Cargando enlace de descarga...</p>
+          <p className="ml-3 text-gray-700 dark:text-gray-300">{t('download.loadinDownloadLink')}</p>
         </div>
       )}
     </main>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from '@/lib/translations';
 
 const procesarCola = (colaData) => {
   if (!colaData) return null;
@@ -21,7 +22,9 @@ const procesarCola = (colaData) => {
 
 export default function StatusPage({ params }) {
   const [parametros, setParametros] = useState(null);
-  const [estado, setEstado] = useState('Cargando...');
+  const [locale, setLocale] = useState(null);
+  const { t } = useTranslations(locale || 'es');
+  const [estado, setEstado] = useState(t('status.loading'));
   const [cola, setCola] = useState(null);
   const [error, setError] = useState(null);
   const [tipoError, setTipoError] = useState(null);
@@ -29,8 +32,13 @@ export default function StatusPage({ params }) {
   const [infoMundo, setInfoMundo] = useState(null);
   const router = useRouter();
 
-  // Obtener los parámetros de forma asíncrona
   useEffect(() => {
+    const getLocale = async () => {
+      const resolvedParams = await params;
+      setLocale(resolvedParams.locale);
+    };
+    getLocale();
+    
     const getParams = async () => {
       const resolvedParams = await params;
       setParametros(resolvedParams);
@@ -51,7 +59,7 @@ export default function StatusPage({ params }) {
       if (estaFecheando || parado) return;
       estaFecheando = true;
       try {
-        console.info("Actualizando datos...");
+        console.info(t('status.updatingData'));
         const res = await fetch(`/api/proxy/estado/${id}`);
         const data = await res.json();
         if (!res.ok && !data.estado.startsWith('error')) throw new Error('Error al obtener el estado');
@@ -59,25 +67,26 @@ export default function StatusPage({ params }) {
         if (data.estado === 'listo') {
           parado = true;
           clearInterval(interval);
-          setRedireccionando(true);          setTimeout(() => {
+          setRedireccionando(true);
+          setTimeout(() => {
             router.push(`/${locale}/download/${id}`);
-          }, 3000); // Redireccionar después de 3 segundos
+          }, 3000);
 
         } else if (data.estado && data.estado.startsWith('error')) {
           setTipoError(data.estado);
 
           switch (data.estado) {
             case 'error_procesamiento':
-              setError('Error durante el procesamiento del mundo. Es posible que el archivo esté corrupto o no sea un mundo válido de Minecraft.');
+              setError(t('status.errors.processing'));
               break;
             case 'error_procesamiento_no_encontrado':
-              setError('No se pudo encontrar el archivo del mundo para procesar. Es posible que haya expirado o no exista. Prueba a volver a intentarlo');
+              setError(t('status.errors.notFound'));
               break;
             case 'error_conexion':
-              setError('Error de conexion. Prueba a volver a intentarlo');
+              setError(t('status.errors.connection'));
               break;
             default:
-              setError('Ha ocurrido un error inesperado durante el procesamiento. Por favor, intenta de nuevo o contacta con soporte.');
+              setError(t('status.errors.error'));
               break;
           }
 
@@ -87,7 +96,7 @@ export default function StatusPage({ params }) {
 
         }if (data.estado === 'pendiente') {
           const colaFormateada = procesarCola(data.cola);
-          console.log("Cola recibida:", data.cola, "Cola formateada:", colaFormateada);
+          //console.log("Cola recibida:", data.cola, "Cola formateada:", colaFormateada);
           setCola(colaFormateada);
 
         } else if (data.estado === 'procesando') {
@@ -130,14 +139,14 @@ export default function StatusPage({ params }) {
           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
         </svg>
         <div className="flex-1">
-          <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-3">¿Necesitas ayuda? Contáctanos:</h4>
+          <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-3">{t('status.info.helpContact')}:</h4>
           <div className="space-y-3">
             <div className="flex items-center">
               <svg className="h-4 w-4 mr-3 text-blue-600 dark:text-blue-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
-              <a href="mailto:srkktua@protonmail.com?subject=MCCompressor%20Error" className="text-sm text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 hover:underline transition-colors">
+              <a href="mailto:srkktua@protonmail.com?subject=MCCompressor%Help" className="text-sm text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 hover:underline transition-colors">
                 srkktua@protonmail.com
               </a>
             </div>
@@ -179,16 +188,16 @@ export default function StatusPage({ params }) {
               </div>
               <div className="ml-3">
                 <div className="text-sm text-yellow-700 dark:text-yellow-300">
-                  <p className="font-semibold">Tu mundo está en la cola de procesamiento.</p>
+                  <p className="font-semibold">{t('status.queue')}</p>
                   <p className="mt-1">
                     {cola ? 
                       typeof cola === 'string' && cola.includes('/') ? 
                         (() => {
                           const [posicion, total] = cola.split('/');
-                          return `Posición ${posicion} de ${total} en la cola`;
+                          return t('status.queuePositionTotal', { posicion, total });
                         })() : 
-                        cola > 0 ? `Posición en cola: ${cola}` : "Calculando posición en cola..." 
-                      : "Calculando posición en cola..."}
+                        cola > 0 ? `${t('status.calculateQueue')}: ${cola}` : t('status.calculateQueue') 
+                      : t('status.calculateQueue')}
                   </p>
                   <div className="mt-2 w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-2">
                     {typeof cola === 'string' && cola.includes('/') ? 
@@ -216,13 +225,14 @@ export default function StatusPage({ params }) {
               </div>
               <div className="ml-3">
                 <p className="text-sm text-blue-700 dark:text-blue-300">
-                  Tu mundo se está procesando en este momento. Esto puede tomar unos minutos.
+                  {t('status.processing')}
                 </p>
               </div>
             </div>
           </div>
         );
-      case 'listo':        return (
+      case 'listo':
+        return (
           <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 p-4 mb-4">
             <div className="flex items-center">
               <div className="flex-shrink-0">
@@ -233,7 +243,7 @@ export default function StatusPage({ params }) {
               <div className="ml-3 flex-1">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-green-700 dark:text-green-300 font-semibold">
-                    ¡Tu mundo está listo para descargar!
+                    {t('status.ready')}
                   </p>
                   {redireccionando && (
                     <div className="flex items-center text-xs text-green-600 dark:text-green-400">
@@ -241,18 +251,18 @@ export default function StatusPage({ params }) {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Redirigiendo...
+                      {t('status.redirecting')}
                     </div>
                   )}
                 </div>
                 <p className="text-xs text-green-600 dark:text-green-400 mt-1">
-                  {redireccionando ? "Te llevaremos a la página de descarga automáticamente." : "Haz clic en el botón para acceder a la descarga."}
+                  {redireccionando ? t('status.redirectAuto') : t('status.redirectClick')}
                 </p>
                 <Link href={`/${locale}/download/${id}`} className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
                   <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  Ir a la descarga
+                  {t('status.goToDownload')}
                 </Link>
               </div>
             </div>
@@ -270,7 +280,7 @@ export default function StatusPage({ params }) {
                 </div>
                 <div className="ml-3">
                   <h3 className="font-medium text-gray-800 dark:text-gray-200">
-                    El enlace de descarga ha expirado
+                    {t('status.expired.title')}
                   </h3>
                 </div>
               </div>
@@ -280,7 +290,7 @@ export default function StatusPage({ params }) {
                     <svg className="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
-                    Información del mundo expirado
+                    {t('status.expired.info')}
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-gray-50 dark:bg-gray-800 rounded-md p-3">
@@ -288,7 +298,7 @@ export default function StatusPage({ params }) {
                         <svg className="h-4 w-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                         </svg>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Fecha de creación</p>
+                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t('status.expired.createdDate')}</p>
                       </div>
                       <p className="text-sm text-gray-900 dark:text-gray-100">{new Date(infoMundo.fechaCreacion).toLocaleString()}</p>
                     </div>
@@ -297,7 +307,7 @@ export default function StatusPage({ params }) {
                         <svg className="h-4 w-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                         </svg>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Fecha de expiración</p>
+                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t('status.expired.expiredDate')}</p>
                       </div>
                       <p className="text-sm text-gray-900 dark:text-gray-100">{new Date(infoMundo.fechaExpiracion).toLocaleString()}</p>
                     </div>
@@ -306,7 +316,7 @@ export default function StatusPage({ params }) {
                         <svg className="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
                         </svg>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Tamaño original</p>
+                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t('status.expired.originalSize')}</p>
                       </div>
                       <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{infoMundo.tamanoInicial?.toFixed(2)} MB</p>
                     </div>
@@ -315,7 +325,7 @@ export default function StatusPage({ params }) {
                         <svg className="h-4 w-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 11-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
                         </svg>
-                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Tamaño comprimido</p>
+                        <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{t('status.expired.compressedSize')}</p>
                       </div>
                       <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{infoMundo.tamanoFinal?.toFixed(2)} MB</p>
                     </div>
@@ -325,11 +335,11 @@ export default function StatusPage({ params }) {
                           <svg className="h-4 w-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>
-                          <p className="text-xs font-medium text-green-800 dark:text-green-200">Reducción conseguida</p>
+                          <p className="text-xs font-medium text-green-800 dark:text-green-200">{t('status.expired.compressedRatio')}</p>
                         </div>
                         <p className="text-lg font-bold text-green-900 dark:text-green-100">
                           {((1 - (infoMundo.tamanoFinal / infoMundo.tamanoInicial)) * 100).toFixed(1)}% 
-                          <span className="text-sm font-normal ml-1">de reducción</span>
+                          <span className="text-sm font-normal ml-1">{t('status.expired.rediction')}</span>
                         </p>
                       </div>
                     )}
@@ -338,7 +348,7 @@ export default function StatusPage({ params }) {
               )}
               
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                El enlace de descarga ha expirado. Puedes comprimir un nuevo mundo para obtener un enlace de descarga válido.
+              {t('status.linkExpired')}
               </p>
               
               <div className="flex space-x-3">
@@ -346,10 +356,10 @@ export default function StatusPage({ params }) {
                   <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
-                  Comprimir nuevo mundo
+                  {t('status.compressNewWorld')}
                 </Link>
                 <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                  Volver al inicio
+                {t('status.goBack')}
                 </Link>
               </div>
             </div>
@@ -368,7 +378,7 @@ export default function StatusPage({ params }) {
                   </div>
                   <div className="ml-3">
                     <h3 className="font-medium text-red-800 dark:text-red-200">
-                      Error en el procesamiento
+                      {t('status.errors.processingSimple')}
                     </h3>
                   </div>
                 </div>
@@ -376,17 +386,17 @@ export default function StatusPage({ params }) {
                 <div className="mb-4">
                   <p className="text-sm text-red-700 dark:text-red-300 mb-2">
                     {tipoError === 'error_procesamiento' 
-                      ? 'Error durante el procesamiento del mundo. Es posible que el archivo esté corrupto o no sea un mundo válido de Minecraft.'
+                      ? t('status.errors.processing')
                       : tipoError === 'error_procesamiento_no_encontrado'
-                      ? 'No se pudo encontrar el archivo del mundo para procesar. Es posible que haya expirado o no exista.'
+                      ? t('status.errors.notFound')
                       : tipoError === 'error_conexion'
-                      ? 'Error de conexion. Prueba a volver a intentarlo' : 'Ha ocurrido un error inesperado durante el procesamiento. Por favor, intenta de nuevo o contacta con soporte.'
+                      ? t('status.errors.connection') : t('status.errors.error')
                     }
                   </p>
                   
                   {tipoError && (
                     <p className="text-xs text-red-600 dark:text-red-400 font-mono bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">
-                      Código de error: {tipoError}
+                      {t('status.errors.code')}: {tipoError}
                     </p>
                   )}
                 </div>
@@ -396,10 +406,10 @@ export default function StatusPage({ params }) {
                     <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    Subir otro mundo
+                    {t('status.uploadOtherWorld')}
                   </Link>
                   <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    Volver al inicio
+                    {t('status.goBack')}
                   </Link>
                 </div>
 
@@ -419,7 +429,7 @@ export default function StatusPage({ params }) {
               </div>
               <div className="ml-3">
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Cargando información del estado...
+                  {t('status.loadingStatus')}
                 </p>
               </div>
             </div>
@@ -430,7 +440,8 @@ export default function StatusPage({ params }) {
 
   return (
     <main className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Estado del mundo</h1>      {error ? (
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('status.title')}</h1>
+      {error ? (
         <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 mb-4">
           <div>
             <div className="flex items-center mb-3">
@@ -441,16 +452,16 @@ export default function StatusPage({ params }) {
               </div>
               <div className="ml-3">
                 <h3 className="font-medium text-red-800 dark:text-red-200">
-                  {tipoError?.startsWith('error_') ? 'Error en el procesamiento' : 'Error de conexión'}
+                  {tipoError?.startsWith('error_') ? t('status.errors.processingSimple') : t('status.errors.connection')}
                 </h3>
               </div>
             </div>
             
             <div className="mb-4">
-              <p className="text-sm text-red-700 dark:text-red-300 mb-2">{error}</p>
+              <p className="text-sm text-red-700 dark:text-red-300 mb-2">{t('common.error')}: {error}</p>
               {tipoError && (
                 <p className="text-xs text-red-600 dark:text-red-400 font-mono bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">
-                  Código de error: {tipoError}
+                  {t('status.errors.code')}: {tipoError}
                 </p>
               )}
             </div>
@@ -460,10 +471,10 @@ export default function StatusPage({ params }) {
                 <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
-                Subir otro mundo
+                {t('status.uploadOtherWorld')}
               </Link>
               <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                Volver al inicio
+                {t('status.goBack')}
               </Link>
             </div>
 
@@ -473,7 +484,7 @@ export default function StatusPage({ params }) {
       ) : (
         <>
           <div className="mb-4 p-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg border dark:border-gray-700">
-            <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Estado actual</h2>
+            <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('status.currentStatus')}</h2>
             <div className="flex items-center space-x-2">
               <div className={`h-3 w-3 rounded-full ${
                 estado === 'listo' ? 'bg-green-500' : 
@@ -484,11 +495,11 @@ export default function StatusPage({ params }) {
                 'bg-gray-300'
               }`}></div>
               <span className="font-medium text-gray-700 dark:text-gray-300">{
-                estado === 'listo' ? 'Completado' : 
-                estado === 'procesando' ? 'Procesando' :
-                estado === 'pendiente' ? 'En espera' :
-                estado.startsWith('error') ? 'Error' :
-                estado === 'expirado' ? 'Expirado' :
+                estado === 'listo' ? t('status.status.ready') : 
+                estado === 'procesando' ? t('status.status.processing') :
+                estado === 'pendiente' ? t('status.status.pending') :
+                estado.startsWith('error') ? t('common.error') :
+                estado === 'expirado' ? t('status.status.expired') :
                 estado
               }</span>
             </div>

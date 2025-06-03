@@ -78,7 +78,8 @@ export default function HomePage({ params }) {
     const formData = new FormData();
     formData.append('mundo_comprimido', fichero);
 
-    try {      intervaloProceso = setInterval(() => {
+    try {
+      intervaloProceso = setInterval(() => {
         setProgresoSubida(prevProgress => {
           if (prevProgress < 80) {
             return Math.min(79, prevProgress + incrementPerUpdate);
@@ -263,7 +264,7 @@ export default function HomePage({ params }) {
               <div className="ml-12">📄 r.0.1.mca</div>
               <div className="ml-8">📁 DIM1/</div>
               <div className="ml-8">📁 DIM-1/</div>
-              <div className="ml-8">📁 <i>{t('upload.compressMethods.otherFiles')}</i></div>
+              <div className="ml-8">📁 <i>{t('common.otherFiles')}</i></div>
             </div>
           </div>
 
@@ -279,7 +280,7 @@ export default function HomePage({ params }) {
               <div className="ml-8">📄 r.0.1.mca</div>
               <div className="ml-4">📁 DIM1/</div>
               <div className="ml-4">📁 DIM-1/</div>
-              <div className="ml-4">📁 <i>{t('upload.compressMethods.otherFiles')}</i></div>
+              <div className="ml-4">📁 <i>{t('common.otherFiles')}</i></div>
             </div>
           </div>
 
@@ -295,7 +296,7 @@ export default function HomePage({ params }) {
               <div className="ml-4">📁 world_nether/</div>
               <div className="ml-4">📄 paper.yml</div>
               <div className="ml-4">📄 server.properties</div>
-              <div className="ml-4">📁 <i>{t('upload.compressMethods.otherFiles')}</i></div>
+              <div className="ml-4">📁 <i>{t('common.otherFiles')}</i></div>
             </div>
           </div>
         </div>
