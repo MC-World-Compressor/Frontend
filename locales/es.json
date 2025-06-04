@@ -116,7 +116,6 @@
     "redirectAuto": "Te llevaremos a la página de descarga automáticamente.",
     "uploadOtherWorld": "Subir otro mundo",
     "ready": "¡Tu mundo está listo para descargar!",
-    "goBack": "Volver al inicio",
     "goToDownload": "Ir a la descarga",
     "linkExpired": "El enlace de descarga ha expirado. Puedes comprimir un nuevo mundo para obtener un enlace de descarga válido.",
     "expired":{
@@ -188,8 +187,13 @@
     "subtitle": "¡Ups! Parece que esta página se ha perdido en el mundo de Minecraft",
     "description": "La página que buscas no existe o ha sido movida. Puede que el enlace esté roto o que hayas escrito mal la dirección.",
     "goHome": "Volver al inicio",
+    "goBack": "Volver atras",
     "contactInfo": "Información de contacto",
-    "needHelp": "¿Necesitas ayuda? No dudes en contactarnos",
+    "needHelp": "¿Necesitas ayuda?",
+    "helpDescription": "Aquí tienes algunos enlaces útiles que podrían ayudarte a encontrar lo que buscas",
+    "stillNeedHelp": "¿Aún necesitas ayuda?",
+    "stillNeedHelpDescription": "Si no puedes encontrar lo que buscas, no dudes en contactarnos directamente",
+    "contactUs": "Contáctanos",
     "errorCode": "Error 404",
     "helpfulLinks": {
       "title": "Enlaces útiles",
@@ -202,6 +206,7 @@
     "error": "Error",
     "retry": "Reintentar",
     "goHome": "Volver al inicio",
+    "goBack": "Volver al inicio",
     "uploadAnother": "Subir otro mundo"
   }
 }

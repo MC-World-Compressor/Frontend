@@ -47,6 +47,13 @@ export function middleware(request) {
     }
     return NextResponse.redirect(new URL(newPath, request.url));
   }
+
+  // Al final, añade el header con el locale:
+  const response = NextResponse.next();
+  const pathLocale = pathname.split('/')[1];
+  const locale = i18n.locales.includes(pathLocale) ? pathLocale : i18n.defaultLocale;
+  response.headers.set('x-path-locale', locale);
+  return response;
 }
 
 export const config = {

@@ -116,7 +116,6 @@
     "redirectAuto": "We'll take you to the download page automatically.",
     "uploadOtherWorld": "Upload another world",
     "ready": "Your world is ready to download!",
-    "goBack": "Go back to start",
     "goToDownload": "Go to download",
     "linkExpired": "The download link has expired. You can compress a new world to get a valid download link.",
     "expired": {
@@ -189,7 +188,11 @@
     "description": "The page you're looking for doesn't exist or has been moved. The link might be broken or you may have mistyped the address.",
     "goHome": "Go back home",
     "contactInfo": "Contact information",
-    "needHelp": "Need help? Don't hesitate to contact us",
+    "needHelp": "Need help?",
+    "helpDescription": "Here are some helpful links that might help you find what you're looking for.",
+    "stillNeedHelp": "Still need help?",
+    "stillNeedHelpDescription": "If you can't find what you're looking for, feel free to contact us directly",
+    "contactUs": "Contact us",
     "errorCode": "Error 404",
     "helpfulLinks": {
       "title": "Helpful links",
@@ -202,6 +205,7 @@
     "error": "Error",
     "retry": "Retry",
     "goHome": "Go home",
+    "goBack": "Volver al inicio",
     "uploadAnother": "Upload another world"
   }
 }
