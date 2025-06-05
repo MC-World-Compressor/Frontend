@@ -13,6 +13,49 @@ async function getLocaleFromHeaders() {
   return i18n.defaultLocale;
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mcworldcompressor.vercel.app';
+export const metadata = {
+  title: "Minecraft World Compressor",
+  description: "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.",
+  keywords: [
+    "compress minecraft world",
+    "optimize minecraft world",
+    "reduce minecraft size",
+    "mc world compressor",
+    "minecraft compressor online",
+    "download compressed world",
+    "minecraft java world"
+  ],
+  openGraph: {
+    title: "Minecraft World Compressor",
+    description: "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.",
+    url: siteUrl,
+    siteName: "MC World Compressor",
+    images: [
+      {
+        url: `${siteUrl}/assets/img/logo.webp`,
+        width: 512,
+        height: 512,
+        alt: "Minecraft World Compressor",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Minecraft World Compressor",
+    description: "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.",
+    images: [`${siteUrl}/assets/img/logo.webp`],
+  },
+  alternates: {
+    canonical: `${siteUrl}/en`,
+    languages: {
+      es: `${siteUrl}/es`,
+      en: `${siteUrl}/en`,
+    },
+  },
+};
+
 const ContactInfo = ({ t, locale }) => (
   <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-8 border border-blue-200 dark:border-blue-800 max-w-lg mx-auto shadow-lg backdrop-blur-sm">
     <div className="space-y-3">

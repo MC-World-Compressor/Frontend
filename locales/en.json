@@ -1,4 +1,15 @@
 {
+  "seo": {
+    "title": "Minecraft World Compressor",
+    "description": "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.",
+    "keywords": ["compress minecraft world",
+        "optimize minecraft world",
+        "reduce minecraft size",
+        "mc world compressor",
+        "minecraft compressor online",
+        "download compressed world",
+        "minecraft java world"]
+  },
   "home": {
     "title": "Compress your Minecraft worlds",
     "subtitle": "Reduce size by about",
