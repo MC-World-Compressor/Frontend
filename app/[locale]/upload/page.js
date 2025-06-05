@@ -247,12 +247,12 @@ export default function HomePage({ params }) {
       )}
 
         <div className="mt-8 w-full">
-        <h2 className="text-xl font-bold mb-3 dark:text-white">{t('upload.howToCompress')}</h2>
+        <h2 className="text-xl font-bold mb-3 dark:text-white mt-16 sm:mt-0">{t('upload.howToCompress')}</h2>
         <p className="mb-4 dark:text-gray-200">{t('upload.compressMethods.title')}:</p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 sm:pt-4">
           <div className="flex flex-col">
-            <h3 className="font-medium mb-2 h-14 font-semibold dark:text-gray-200">{t('upload.compressMethods.method1')}</h3>
+            <h3 className="font-medium md:mb-4 h-14 font-semibold dark:text-gray-200">{t('upload.compressMethods.method1')}</h3>
             <div className="font-mono text-sm p-3 rounded border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 flex-grow h-64 overflow-auto">
               <div>📁 world.zip</div>
               <div className="ml-4">📁 world/</div>
@@ -269,7 +269,7 @@ export default function HomePage({ params }) {
           </div>
 
           <div className="flex flex-col">
-            <h3 className="font-medium mb-2 h-14 font-semibold dark:text-gray-200">{t('upload.compressMethods.method2')}</h3>
+            <h3 className="font-medium md:mb-4 h-14 font-semibold dark:text-gray-200">{t('upload.compressMethods.method2')}</h3>
             <div className="font-mono text-sm p-3 rounded border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 flex-grow h-64 overflow-auto">
               <div>📁 world.zip</div>
               <div className="ml-4">📄 level.dat</div>

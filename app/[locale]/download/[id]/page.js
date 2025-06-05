@@ -98,7 +98,7 @@ export default function DownloadPage({ params }) {
       <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('download.title')}</h1>
       {error && <p className="text-red-600 dark:text-red-400">{error}</p>}
       {linkDescarga ? (
-        <div className="space-y-4">
+        <div className="space-y-4 mb-6 md:mb-0">
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
               {nombreMundo ? t('download.yourWorld') + " " + nombreMundo : t('download.yourWorld') + " "} {t('download.itsReady')}

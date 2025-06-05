@@ -60,7 +60,7 @@ export default async function Inicio({ params }) {
                 {t.compression.intelligentAnalysis}
               </p>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                <span className="font-semibold text-green-600">{t.compression.removeChunks}</span> {t.compression.removeChunksDesc}
+                <span className="font-semibold dark:text-green-500">{t.compression.removeChunks}</span> {t.compression.removeChunksDesc}
               </p>
               <p className="text-gray-600 dark:text-gray-400">
                 {t.compression.result}
@@ -69,9 +69,10 @@ export default async function Inicio({ params }) {
             <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
               <h4 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
                 {t.compression.howWeOptimize}
-              </h4>              <div className="space-y-4">
+              </h4>
+              <div className="space-y-4">
                 <div className="flex items-start">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-4 mt-1">
+                  <div className="w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] bg-blue-500 rounded-full flex items-center justify-center mr-4 mt-1 aspect-square">
                     <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"/>
                     </svg>
@@ -92,7 +93,7 @@ export default async function Inicio({ params }) {
                     <p className="text-gray-600 dark:text-gray-400 text-sm">{t.compression.steps.optimizeDesc}</p>
                   </div>
                 </div>
-                <div className="flex items-start">
+                <div className="flex items-start pt-3">
                   <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                       <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd"/>
@@ -129,7 +130,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">small_world.zip</p>
-                  <p className="font-bold text-orange-600 text-lg">24MB</p>
+                  <p className="font-bold text-orange-500 text-lg">24MB</p>
                 </div>
                 
                 {/* Flecha */}
@@ -151,7 +152,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">small_world_compressed.zip</p>
-                  <p className="font-bold text-green-600 text-lg">6MB</p>
+                  <p className="font-bold text-green-800 dark:text-green-500 text-lg">6MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">75% {t.beforeAfter.reduction}</p>
               </div>
@@ -171,7 +172,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">medium_world.zip</p>
-                  <p className="font-bold text-orange-600 text-lg">94MB</p>
+                  <p className="font-bold text-orange-500 text-lg">94MB</p>
                 </div>
                 
                 {/* Flecha */}
@@ -193,7 +194,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">medium_world_compressed.zip</p>
-                  <p className="font-bold text-green-600 text-lg">29MB</p>
+                  <p className="font-bold text-green-800 dark:text-green-500 text-lg">29MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">69% {t.beforeAfter.reduction}</p>
               </div>
@@ -213,7 +214,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">big_world.zip</p>
-                  <p className="font-bold text-orange-600 text-lg">1340MB</p>
+                  <p className="font-bold text-orange-500 text-lg">1340MB</p>
                 </div>
                 
                 {/* Flecha */}
@@ -235,7 +236,7 @@ export default async function Inicio({ params }) {
                     />
                   </div>
                   <p className="font-medium text-gray-700 dark:text-gray-300 mt-2">big_world_compressed.zip</p>
-                  <p className="font-bold text-green-600 text-lg">715MB</p>
+                  <p className="font-bold text-green-800 dark:text-green-500 text-lg">715MB</p>
                 </div>
                 <p className="text-center mt-3 text-blue-600 font-bold">47% {t.beforeAfter.reduction}</p>
               </div>

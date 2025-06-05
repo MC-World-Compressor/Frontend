@@ -16,18 +16,19 @@ export default function Navbar({ locale = 'en' }) {
                         width={40}
                         height={40}
                         className="rounded-full"/>
-                    <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">MC World Compressor</span>
+                    <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white hidden sm:inline">MC World Compressor</span>
                 </Link>
 
                 <div className="flex items-center gap-2">
-                    <LanguageSelector locale={locale} />
-                    
-                    <Link
-                        href={`/${locale}#faq`}
-                        className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                    >
-                        FAQ
-                    </Link>
+                    <div className="flex items-center gap-1">
+                        <LanguageSelector locale={locale} />
+                        <Link
+                            href={`/${locale}#faq`}
+                            className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                        >
+                            FAQ
+                        </Link>
+                    </div>
                     <Link
                         href={`/${locale}/upload`}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
@@ -35,7 +36,7 @@ export default function Navbar({ locale = 'en' }) {
                         {t.compress}
                     </Link>
                 </div>
-        </div>
-    </nav>
-);
+            </div>
+        </nav>
+    );
 }

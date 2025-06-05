@@ -52,7 +52,7 @@
       },
       "bedrock": {
         "question": "¿Funciona con Bedrock?",
-        "answer": "No, actualmente el compresor solo comprime mundos de Minecraft Java 1.2.1 en adelante."
+        "answer": "No, actualmente el compresor solo comprime mundos de Minecraft Java."
       },
       "time": {
         "question": "¿Cuánto tiempo se guardan los archivos?",
@@ -90,7 +90,7 @@
     "uploaded": "¡Mundo subido con éxito!",
     "redirecting": "Redirigiendo automáticamente a la página de estado...",
     "clickToRedirect": "Haz clic aquí si no eres redirigido automáticamente",
-    "dragDrop": "Arrastra tu archivo aquí o haz clic para seleccionar",
+    "dragDrop": "Arrastra tu mundo aquí",
     "orCondition": "O",
     "howToCompress": "¿Cómo comprimir tu mundo de Minecraft?",
     "compressMethods":{
