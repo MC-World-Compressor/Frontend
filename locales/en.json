@@ -197,7 +197,8 @@
     "faqDescription": "Find answers to frequently asked questions",
     "subtitle": "Oops! It looks like this page got lost in the Minecraft world",
     "description": "The page you're looking for doesn't exist or has been moved. The link might be broken or you may have mistyped the address.",
-    "goHome": "Go back home",
+    "goHome": "Go home",
+    "goBack": "Go back",
     "contactInfo": "Contact information",
     "needHelp": "Need help?",
     "helpDescription": "Here are some helpful links that might help you find what you're looking for.",
@@ -216,7 +217,7 @@
     "error": "Error",
     "retry": "Retry",
     "goHome": "Go home",
-    "goBack": "Volver al inicio",
+    "goBack": "Go back",
     "uploadAnother": "Upload another world"
   }
 }

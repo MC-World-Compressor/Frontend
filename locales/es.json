@@ -217,7 +217,7 @@
     "error": "Error",
     "retry": "Reintentar",
     "goHome": "Volver al inicio",
-    "goBack": "Volver al inicio",
+    "goBack": "Volver atas",
     "uploadAnother": "Subir otro mundo"
   }
 }

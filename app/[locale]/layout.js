@@ -78,6 +78,9 @@ export default async function LocaleLayout({ children, params }) {
 
   return (
     <html lang={locale} className="h-full">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-gray-900`}>
         <Navbar locale={locale} />
         <main className="flex-grow">
