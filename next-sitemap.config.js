@@ -10,15 +10,19 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mcworldcompressor.v
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
-  
+  robotsTxtOptions: {
+    transformRobotsTxt: async (_, robotsTxt) => {
+      // Solo Sitemap, sin Host
+      const hostUrl = siteUrl.replace(/^https?:\/\//, '');
+      const sitemapUrl = `https://${hostUrl}/sitemap.xml`;
+      return `# *\nUser-agent: *\nAllow: /\n\n# Sitemaps\nSitemap: ${sitemapUrl}`;
+    },
+  },
   additionalPaths: async (config) => {
     const paths = [];
     locales.forEach((locale) => {
-
       paths.push({ loc: `/${locale}` });
       paths.push({ loc: `/${locale}/upload` });
-
-      
       dynamicIds.forEach((id) => {
         paths.push({ loc: `/${locale}/download/${id}` });
         paths.push({ loc: `/${locale}/status/${id}` });
