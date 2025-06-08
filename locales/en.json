@@ -85,7 +85,8 @@
   "description": "Upload Minecraft world",
   "selectFile": "Select file",
   "fileSelected": "File selected",
-  "fileRequirements": "Only .zip files, maximum 4GB",
+  "fileRequirements": "Only .zip, .tar and .tar.gz files, maximum 4GB",
+  "fileTypes": "File types allowed: .zip, .tar, .tar.gz",
   "uploading": "Uploading...",
   "upload": "Compress World",
   "uploaded": "World uploaded successfully!",
@@ -95,14 +96,14 @@
   "orCondition": "Or",
   "howToCompress": "How to compress your Minecraft world?",
   "compressMethods": {
-    "title": "These are the 3 valid structures for your ZIP file",
-    "method1": "ZIP with the world folder inside the ZIP.",
+    "title": "These are the 3 valid structures for your file",
+    "method1": "ZIP with the world folder inside.",
     "method2": "ZIP with the world files directly.",
     "method3": "ZIP with multiple folders",
     "method3Subtitle": "The first world found will be used"
   },
-  "subtitle1": "The system will automatically detect your ZIP structure and process the world correctly.",
-  "subtitle2": "The world name doesn't have to be 'world', and the system returns the result using the first structure (ZIP, folder, world content).",
+  "subtitle1": "The system will automatically detect your file structure and process the world correctly.",
+  "subtitle2": "The world name doesn't have to be 'world', and the system returns the result using the first structure (file, folder, world content).",
   "errors": {
     "zipOnly": "Only .zip files are allowed",
     "sizeLimit": "The file cannot exceed 4GB",

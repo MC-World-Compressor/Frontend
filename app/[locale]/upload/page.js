@@ -14,13 +14,15 @@ export default function HomePage({ params }) {
   const [cola, setCola] = useState(null);
   const router = useRouter();
   const { t } = useTranslations(locale || 'en');
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   useEffect(() => {
     let estaMontado = true;
     let timeoutId = null;
     let obteniendo = false;
 
     const fetchCola = async () => {
-      if (obteniendo) return;
+      if (obteniendo || subiendo) return;
       obteniendo = true;
       try {
         const res = await fetch('/api/cola');
@@ -45,7 +47,7 @@ export default function HomePage({ params }) {
       estaMontado = false;
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, []);
+  }, [subiendo]);
 
   useEffect(() => {
     const getLocale = async () => {
@@ -68,8 +70,12 @@ export default function HomePage({ params }) {
     const file = e.target.files[0];
     
     if (file) {
-      // Comprobar si el archivo es .zip
-      if (!file.name.toLowerCase().endsWith('.zip')) {
+      // Comprobar si el archivo es .zip, .tar o .tar.gz
+      const nombre = file.name.toLowerCase();
+      const esZip = nombre.endsWith('.zip');
+      const esTarGz = nombre.endsWith('.tar.gz');
+      const esTar = !esTarGz && nombre.endsWith('.tar');
+      if (!(esZip || esTar || esTarGz)) {
         setError(t('upload.errors.zipOnly'));
         setFichero(null);
         return;
@@ -119,50 +125,31 @@ export default function HomePage({ params }) {
           return prevProgress;
         });
       }, intervaloActualizacion);
-      
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/proxy/subidas', true);
-      xhr.upload.onprogress = (event) => {
-        //console.log("Upload progress: ", Math.round((event.loaded / event.total) * 100) + "%");
-      };
-        xhr.onload = () => {
-        clearInterval(intervaloProceso);
-          if (xhr.status === 200) {
-          try {
-            const data = JSON.parse(xhr.responseText);
-            //console.log("Respuesta del servidor:", data);
-            
-            setProgresoSubida(100);
-            
-            if (data.servidor_id) {
-              setServerId(data.servidor_id);
-            } else if (data.jobId) {
-              setServerId(data.jobId);
-            } else {
-              throw new Error('Error al subir el mundo: ID del servidor no encontrado');
-            }
-          } catch (parseError) {
-            console.error(t('upload.errors.processResponse') + ": ", parseError);
-            setSubiendo(false);
-            setFichero(null);
-            setError(t('upload.errors.processResponse'));
-          }}else {
-          setSubiendo(false);
-          setFichero(null);
-          setError(t('upload.errors.uploadFailed'));
+
+      const response = await fetch(`${backendUrl}/api/subir`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      clearInterval(intervaloProceso);
+
+      if (response.ok) {
+        const data = await response.json();
+        setProgresoSubida(100);
+        if (data.servidor_id) {
+          setServerId(data.servidor_id);
+        } else if (data.jobId) {
+          setServerId(data.jobId);
+        } else {
+          throw new Error('Error al subir el mundo: ID del servidor no encontrado');
         }
-      };      xhr.onerror = () => {
-        clearInterval(intervaloProceso);
+      } else {
         setSubiendo(false);
         setFichero(null);
-        setError(t('upload.errors.connectionError'));
-      };
-      
-      xhr.send(formData);    } catch (e) {
-      if (intervaloProceso) {
-        clearInterval(intervaloProceso);
+        setError(t('upload.errors.uploadFailed'));
       }
-      console.error("Error:", e);
+    } catch (e) {
+      if (intervaloProceso) clearInterval(intervaloProceso);
       setError(e.message);
       setFichero(null);
       setSubiendo(false);
@@ -174,6 +161,7 @@ export default function HomePage({ params }) {
       <h1 className="text-3xl font-bold mb-4 dark:text-white">{t('upload.title')}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-2xl mx-auto">
         <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 h-52 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors dark:bg-gray-800"
+          style={{overflow: 'hidden', height: '16rem'}}
           onClick={() => document.getElementById('mundo_comprimido').click()}
           onDragOver={(e) => {
             e.preventDefault();
@@ -191,17 +179,18 @@ export default function HomePage({ params }) {
             
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
               const file = e.dataTransfer.files[0];
-              
-              // Comprobar si el archivo es un .zip
-              if (!file.name.toLowerCase().endsWith('.zip')) {
-                setError('Solo se permiten archivos .zip');
+              const nombre = file.name.toLowerCase();
+              const esZip = nombre.endsWith('.zip');
+              const esTarGz = nombre.endsWith('.tar.gz');
+              const esTar = !esTarGz && nombre.endsWith('.tar');
+              if (!(esZip || esTar || esTarGz)) {
+                setError('Solo se permiten archivos .zip, .tar o .tar.gz');
                 setFichero(null);
                 return;
               }
-              
               const MAX_SIZE = 4 * 1024 * 1024 * 1024; // 4GB
               if (file.size > MAX_SIZE) {
-                setError('El archivo no puede superar los 4GB');
+                setError('El archivo no puede superar los 8GB');
                 setFichero(null);
                 return;
               }
@@ -229,12 +218,15 @@ export default function HomePage({ params }) {
           {fichero && <p className="mt-3 text-sm text-green-600 dark:text-green-400">{t('upload.fileSelected')}: {fichero.name}</p>}
           <input 
             type="file" 
-            accept=".zip" //,.tar,.tar.gz,.rar
+            accept=".zip,.tar,.tar.gz"
             name="mundo_comprimido" 
             id="mundo_comprimido" 
             onChange={handleFileChange} 
             className="hidden"
           />
+          <p className="mt-3 mb-4 text-sm text-gray-500 dark:text-gray-400">
+            <b>{t('upload.fileTypes')}</b>
+          </p>
         </div>
         {error && <p className="text-red-600 dark:text-red-400"><b>{error}</b></p>}
         <button
@@ -244,7 +236,7 @@ export default function HomePage({ params }) {
         >
           {subiendo ? t('upload.uploading') + " " + Math.floor(progresoSubida) + "%" : t('upload.upload')}
         </button>
-        {cola && (
+        {!subiendo && cola && (
           <div className="mt-4 flex items-center justify-center">
             <span className="flex items-center justify-center px-4 py-1 rounded-full border border-gray-400 dark:border-gray-600 bg-transparent text-base font-semibold text-gray-900 dark:text-gray-100 min-h-[2.25rem] min-w-[12rem]" style={{background: 'none'}}>
               <span className="inline-block w-3 h-3 rounded-full mr-1 animate-pulse-bright bg-yellow-500"></span>
