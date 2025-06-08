@@ -81,6 +81,7 @@
   },
   "upload": {
   "title": "Compress your Minecraft world",
+  "worldQueue": "Worlds in queue:",
   "description": "Upload Minecraft world",
   "selectFile": "Select file",
   "fileSelected": "File selected",

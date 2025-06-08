@@ -59,13 +59,12 @@ export default function StatusPage({ params }) {
         // Si la respuesta es 404
         if (res.status === 404) {
           const data = await res.json();
-            setError(t('status.errors.serverNotFound'));
-            setTipoError('error_servidor_no_encontrado');
-            setCola(0);
-            parado = true;
-            clearInterval(interval);
-            return;
-          
+          setError(t('status.errors.serverNotFound'));
+          setTipoError('error_servidor_no_encontrado');
+          setCola(0);
+          parado = true;
+          clearInterval(interval);
+          return;
         }
         const data = await res.json();
         if (!res.ok && !data.estado?.startsWith('error')) throw new Error('Error al obtener el estado');
@@ -97,17 +96,21 @@ export default function StatusPage({ params }) {
           }
 
           setCola(0);
-          parado = true;
-          clearInterval(interval);
-
-        }if (data.estado === 'pendiente') {
+          // NO paramos el polling si es error de conexión
+          if (data.estado !== 'error_conexion') {
+            parado = true;
+            clearInterval(interval);
+          }
+        } else if (data.estado === 'pendiente') {
           const colaFormateada = procesarCola(data.cola);
           //console.log("Cola recibida:", data.cola, "Cola formateada:", colaFormateada);
           setCola(colaFormateada);
-
+          setError(null);
+          setTipoError(null);
         } else if (data.estado === 'procesando') {
           setCola(0);
           setError(null);
+          setTipoError(null);
         } else if (data.estado === 'expirado') {
           setInfoMundo({
             fechaCreacion: data.fecha_creacion,
@@ -123,8 +126,7 @@ export default function StatusPage({ params }) {
         setError(e.message);
         setTipoError('error_conexion');
         setCola(0);
-        parado = true;
-        clearInterval(interval);
+        // NO paramos el polling si es error de conexión
       } finally {
         estaFecheando = false;
       }

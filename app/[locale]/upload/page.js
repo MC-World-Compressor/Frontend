@@ -11,10 +11,42 @@ export default function HomePage({ params }) {
   const [serverId, setServerId] = useState(null);
   const [error, setError] = useState(null);
   const [locale, setLocale] = useState(null);
+  const [cola, setCola] = useState(null);
   const router = useRouter();
   const { t } = useTranslations(locale || 'en');
+  useEffect(() => {
+    let estaMontado = true;
+    let timeoutId = null;
+    let obteniendo = false;
 
-  // Obtener el locale de forma asíncrona
+    const fetchCola = async () => {
+      if (obteniendo) return;
+      obteniendo = true;
+      try {
+        const res = await fetch('/api/cola');
+        const data = await res.json();
+        if (!estaMontado) return;
+        if (typeof data.cola === 'number' && data.cola > 0) {
+          setCola(data.cola);
+        } else {
+          setCola(null);
+        }
+      } catch (e) {
+        if (estaMontado) setCola(null);
+      } finally {
+        obteniendo = false;
+        if (estaMontado) {
+          timeoutId = setTimeout(fetchCola, 5000);
+        }
+      }
+    };
+    fetchCola();
+    return () => {
+      estaMontado = false;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
   useEffect(() => {
     const getLocale = async () => {
       const resolvedParams = await params;
@@ -212,6 +244,23 @@ export default function HomePage({ params }) {
         >
           {subiendo ? t('upload.uploading') + " " + Math.floor(progresoSubida) + "%" : t('upload.upload')}
         </button>
+        {cola && (
+          <div className="mt-4 flex items-center justify-center">
+            <span className="flex items-center justify-center px-4 py-1 rounded-full border border-gray-400 dark:border-gray-600 bg-transparent text-base font-semibold text-gray-900 dark:text-gray-100 min-h-[2.25rem] min-w-[12rem]" style={{background: 'none'}}>
+              <span className="inline-block w-3 h-3 rounded-full mr-1 animate-pulse-bright bg-yellow-500"></span>
+              <span className="flex-1 text-center">{t('upload.worldQueue')} <b>{cola}</b></span>
+            </span>
+          </div>
+        )}
+        <style jsx global>{`
+          @keyframes pulse-bright {
+            0%, 100% { opacity: 1; filter: brightness(1.1); }
+            50% { opacity: 0.4; filter: brightness(0.6); }
+          }
+          .animate-pulse-bright {
+            animation: pulse-bright 1.2s cubic-bezier(0.4,0,0.6,1) infinite;
+          }
+        `}</style>
         
         {subiendo && !serverId && !error && (
           <div className="w-full mt-2">

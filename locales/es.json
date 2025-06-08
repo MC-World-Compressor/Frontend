@@ -81,6 +81,7 @@
   },
   "upload": {
     "title": "Comprime tu mundo de Minecraft",
+    "worldQueue": "Mundos en cola:",
     "description": "Subir mundo de Minecraft",
     "selectFile": "Seleccionar archivo",
     "fileSelected": "Archivo seleccionado",
