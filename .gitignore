@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+robots.txt
+sitemap.xml
+sitemap-*.xml
 
 # production
 /build
