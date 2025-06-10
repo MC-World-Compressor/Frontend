@@ -2,19 +2,49 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getPageTranslations } from '@/lib/translations';
 
+const accordionStyle = `
+  .accordion-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition:
+      max-height 0.45s cubic-bezier(0.4,0,0.2,1),
+      opacity 0.3s,
+      padding 0.3s;
+    will-change: max-height, opacity, padding;
+    display: block;
+  }
+  details[open] .accordion-content {
+    max-height: 500px;
+    opacity: 1;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    transition:
+      max-height 0.5s cubic-bezier(0.4,0,0.2,1),
+      opacity 0.3s,
+      padding 0.3s;
+  }
+`;
+
 const Accordion = ({ title, children }) => {
   return (
-    <details className="group border-b border-gray-200 dark:border-gray-700">
-      <summary className="flex justify-between items-center font-medium cursor-pointer list-none py-4 text-gray-800 dark:text-gray-200">
-        <span className="text-lg font-semibold">{title}</span>
-        <span className="transition group-open:rotate-180">
-          <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24" className="text-gray-800 dark:text-gray-200">
-            <path d="M6 9l6 6 6-6" stroke="currentColor" />
-          </svg>
-        </span>
-      </summary>
-      <div className="text-gray-600 dark:text-gray-400 pb-4">{children}</div>
-    </details>
+    <>
+      {/* Inyecta el CSS solo una vez por página */}
+      <style>{accordionStyle}</style>
+      <details className="group border-b border-gray-200 dark:border-gray-700">
+        <summary className="flex justify-between items-center font-medium cursor-pointer list-none py-4 text-gray-800 dark:text-gray-200">
+          <span className="text-lg font-semibold">{title}</span>
+          <span className="transition group-open:rotate-180">
+            <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24" className="text-gray-800 dark:text-gray-200">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" />
+            </svg>
+          </span>
+        </summary>
+        <div className="accordion-content text-gray-600 dark:text-gray-400 pb-4">{children}</div>
+      </details>
+    </>
   );
 };
 
