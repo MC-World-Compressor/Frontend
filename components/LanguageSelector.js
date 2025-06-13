@@ -1,12 +1,27 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
+import { useState, useRef, useEffect } from 'react';
 
 export default function LanguageSelector({ locale }) {
   const router = useRouter();
   const pathname = usePathname();
-  
+  const [abierto, setAbierto] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!abierto) return;
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setAbierto(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [abierto]);
+
   const changeLanguage = (newLocale) => {
+    setAbierto(false);
     if (newLocale === locale) return;
     let newPathname;
     if (/^\/[a-z]{2}(\/|$)/.test(pathname)) {
@@ -18,8 +33,14 @@ export default function LanguageSelector({ locale }) {
   };
   
   return (
-    <div className="relative group">
-      <button className="px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center">
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        className="px-3 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center"
+        onClick={() => setAbierto((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={abierto}
+      >
         {locale === 'es' ? (
           <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="Bandera de España">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" width="20" height="16">
@@ -61,7 +82,14 @@ export default function LanguageSelector({ locale }) {
         )}
         {locale.toUpperCase()}
       </button>
-      <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+      <div
+        className={`absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-md shadow-lg transition-all duration-200 z-50
+        ${abierto ? 'opacity-100 visible' : 'opacity-0 invisible'}
+        group-hover:opacity-100 group-hover:visible`}
+        style={{ pointerEvents: abierto ? 'auto' : 'none' }}
+        role="listbox"
+        tabIndex={-1}
+      >
         <button
           onClick={() => changeLanguage('es')}
           disabled={locale === 'es'}
