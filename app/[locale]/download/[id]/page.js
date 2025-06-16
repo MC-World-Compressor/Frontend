@@ -56,9 +56,10 @@ export default function DownloadPage({ params }) {
         const urlParts = data.download_url.split('/');
         const fileName = urlParts[urlParts.length - 1];
         setNombreMundoOriginal(fileName);
-        const match = fileName.match(/^(world-[^-_]+(?:-[^-_]+)*?)(?:-[a-z0-9]+)?(_compressed)\.zip$/i);
-        const worldName = match ? match[1] + match[2] : fileName.replace('.zip', '');
-        setNombreMundo(worldName);
+        let nombreBase = fileName.replace(/_compressed\.(zip|tar|tar\.gz)$/i, '')
+                                 .replace(/-[a-z0-9]{8,}$/i, '')
+                                 .replace(/\.(zip|tar|tar\.gz)$/i, '');
+        setNombreMundo(nombreBase);
       } catch (e) {
         setError(e.message);
         setTimeout(() => {
@@ -77,9 +78,22 @@ export default function DownloadPage({ params }) {
     }
   };
 
-  const formatearFecha = (fechaISO) => {
+  const formatearFecha = (fechaISO, redondear = true) => {
     if (!fechaISO) return '';
-    return new Date(fechaISO).toLocaleString(undefined, {
+    const fecha = new Date(fechaISO);
+    if (redondear) {
+      let hora = fecha.getHours();
+      let minutos = fecha.getMinutes();
+      if (minutos > 0) {
+        hora += 1;
+        if (hora === 24) {
+          fecha.setDate(fecha.getDate() + 1);
+          hora = 0;
+        }
+      }
+      fecha.setHours(hora, 0, 0, 0);
+    }
+    return fecha.toLocaleString(undefined, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -115,37 +129,12 @@ export default function DownloadPage({ params }) {
               </div>
               <div>
                 <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.createdDate')}:</p>
-                <p className="text-gray-600 dark:text-gray-400">{formatearFecha(fechaCreacion)}</p>
+                <p className="text-gray-600 dark:text-gray-400">{formatearFecha(fechaCreacion, false)}</p>
               </div>
               <div>
                 <p className="font-medium text-gray-700 dark:text-gray-300">{t('download.expiredDate')}:</p>
                 <div className="flex items-center">
-                  <p className="text-amber-600 dark:text-amber-400 font-medium">{formatearFecha(fechaExpiracion)}</p>
-                  <div className="relative ml-1">
-                    <span 
-                      className="cursor-help text-gray-500 dark:text-gray-400 inline-block"
-                      onMouseEnter={() => setMostrarTooltip(true)}
-                      onMouseLeave={() => setMostrarTooltip(false)}
-                      onClick={() => setMostrarTooltip(!mostrarTooltip)}
-                      onTouchStart={() => setMostrarTooltip(true)}
-                      onTouchEnd={(e) => {
-                        e.preventDefault();
-                        setTimeout(() => setMostrarTooltip(false), 3000);
-                      }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                      </svg>
-                      {mostrarTooltip && (
-                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 md:bottom-full bg-gray-800 dark:bg-gray-700 text-white text-xs rounded py-1 px-2 w-56 z-20">
-                          {t('download.tooltip')}
-                          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
-                        </div>
-                      )}
-                    </span>
-                  </div>
+                  <p className="text-amber-600 dark:text-amber-400 font-medium">{formatearFecha(fechaExpiracion, true)}</p>
                 </div>
               </div>
             </div>
@@ -177,7 +166,7 @@ export default function DownloadPage({ params }) {
               <div className="flex items-start">
                 <div className="font-mono text-xs p-2 rounded bg-gray-100 dark:bg-gray-600 flex-grow overflow-auto">
                   <div className="text-gray-800 dark:text-gray-200">📁 <span className="text-blue-600 dark:text-blue-400">{nombreMundoOriginal || 'world.zip'}</span></div>
-                  <div className="ml-4 text-gray-800 dark:text-gray-200">📁 <span className="text-green-600 dark:text-green-400">{nombreMundo.replace("_compressed", "") || 'world'}/</span></div>
+                  <div className="ml-4 text-gray-800 dark:text-gray-200">📁 <span className="text-green-600 dark:text-green-400">{nombreMundo || 'world'}/</span></div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📄 level.dat</div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📄 level.dat_old</div>
                   <div className="ml-8 text-gray-700 dark:text-gray-300">📁 region/</div>
@@ -190,15 +179,8 @@ export default function DownloadPage({ params }) {
             
             <div className="text-sm text-gray-600 dark:text-gray-400 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg border border-yellow-200 dark:border-yellow-700">
               <p className="mb-1">
-                <span className="font-medium">{t('download.share')}</span> {t('download.takeAdvantage')}
+                <span className="font-medium">{t('download.share')}</span><br/>{t('download.takeAdvantage')}
               </p>
-              <div>
-                <p className="flex flex-wrap items-center">
-                  <span>{t('download.linkAvailableUntil')}: </span>
-                  <span className="ml-1">{formatearFecha(fechaExpiracion)}</span>
-                  <span className="text-xs text-amber-600 dark:text-amber-400 ml-1 block sm:inline">({t('download.approximately')})</span>
-                </p>
-              </div>
             </div>
           </div>
         </div>

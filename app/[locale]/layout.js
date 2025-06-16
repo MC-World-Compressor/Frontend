@@ -26,7 +26,6 @@ export async function generateMetadata({ params }) {
   const description = getTranslation(locale, "seo.description", "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mcworldcompressor.vercel.app';
   const image = `${siteUrl}/assets/img/logo.webp`;
-  // Keywords fijas por idioma
   const keywords = getTranslation(locale, "seo.keywords", [
         "compress minecraft world",
         "optimize minecraft world",
@@ -53,15 +52,26 @@ export async function generateMetadata({ params }) {
           height: 512,
           alt: title,
         },
+        {
+          url: `${siteUrl}/assets/img/logo.webp`,
+          width: 1200,
+          height: 630,
+          alt: `${title} - Banner`,
+        },
       ],
       locale,
       type: "website",
+      description,
+      determiner: 'the',
+      emails: ['srkktua@protonmail.com'],
+      site_name: 'MC World Compressor',
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [image],
+      creator: '@mcworldcompressor',
     },
     alternates: {
       canonical: `${siteUrl}/${locale}`,
@@ -70,6 +80,7 @@ export async function generateMetadata({ params }) {
         en: `${siteUrl}/en`,
       },
     },
+    metadataBase: new URL(siteUrl),
   };
 }
 
@@ -79,7 +90,12 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <html lang={locale} className="h-full">
       <head>
+        <title>MC World Compressor</title>
         <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" type="image/webp" href="/assets/img/logo.webp" sizes="512x512" />
+        <link rel="apple-touch-icon" href="/assets/img/logo.webp" sizes="512x512" />
+        <meta name="image" content="/assets/img/logo.webp" />
+        <meta itemProp="image" content="/assets/img/logo.webp" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-gray-900`}>
         <Navbar locale={locale} />

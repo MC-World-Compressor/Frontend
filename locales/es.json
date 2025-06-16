@@ -177,13 +177,10 @@
     "compressionRatio": "Se ha logrado una compresion del <b>{{porcentaje}}%</b>",
     "created": "Creado",
     "expires": "Expira",
-    "tooltip": "Esta es una fecha aproximada. El enlace podría expirar un poco después de lo indicado.",
-    "fileStructure": "Estructura del archivo descargado",
+    "fileStructure": "Compressed world structure",
     "downloadInfo": "El archivo se descargará con formato ZIP conteniendo una carpeta con todos los archivos del mundo.",
     "share": "¡Comparte este mundo con tus amigos!",
-    "takeAdvantage": "Puedes aprovechar este enlace antes de que caduque para compartir el mundo.",
-    "linkAvailableUntil": "El enlace estará disponible hasta",
-    "approximately": "aproximadamente"
+    "takeAdvantage": "Puedes aprovechar este enlace antes de que caduque para compartir el mundo."
   },
   "footer": {
     "developedBy": "Desarrollado por",

@@ -15,7 +15,7 @@ A web application to compress Minecraft worlds using the [thanos](https://github
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tuusuario/mc-world-compressor.git
+git clone https://github.com/MC-World-Compressor/Frontend.git
 cd mc-world-compressor
 ```
 

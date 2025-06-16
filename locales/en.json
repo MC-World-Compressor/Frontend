@@ -177,13 +177,10 @@
     "compressionRatio": "A <b>{{porcentaje}}%</b> compression has been achieved",
     "created": "Created",
     "expires": "Expires",
-    "tooltip": "This is an approximate date. The link may expire shortly after the indicated time.",
     "fileStructure": "Downloaded file structure",
     "downloadInfo": "The file will be downloaded in ZIP format containing a folder with all the world files.",
     "share": "Share this world with your friends!",
-    "takeAdvantage": "You can take advantage of this link before it expires to share the world.",
-    "linkAvailableUntil": "The link will be available until",
-    "approximately": "approximately"
+    "takeAdvantage": "You can take advantage of this link before it expires to share the world."
   },
   "footer": {
     "developedBy": "Developed by",
