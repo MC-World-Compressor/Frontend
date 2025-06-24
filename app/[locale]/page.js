@@ -74,7 +74,7 @@ export default async function Inicio({ params }) {
               href={`/${locale}/upload`}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md text-lg font-medium transition-colors"
             >
-              {t.cta}
+              {t.compressButton}
             </Link>
           </div>
         </section>
@@ -156,8 +156,8 @@ export default async function Inicio({ params }) {
                 <div className="text-center mb-2">
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/WinÑAR.webp"
-                      alt="Mundo sin comprimir"
+                      src="/assets/img/RAR.webp"
+                      alt={String(t.compression.altRAR)}
                       fill
                       className="object-contain"
                       priority
@@ -179,7 +179,7 @@ export default async function Inicio({ params }) {
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
-                      alt="Mundo comprimido"
+                      alt={String(t.compression.altCompressedLogo)}
                       fill
                       className="object-contain"
                       priority
@@ -198,8 +198,8 @@ export default async function Inicio({ params }) {
                 <div className="text-center mb-2">
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/WinÑAR.webp"
-                      alt="Mundo sin comprimir"
+                      src="/assets/img/RAR.webp"
+                      alt={String(t.compression.altRAR)}
                       fill
                       className="object-contain"
                       priority
@@ -221,7 +221,7 @@ export default async function Inicio({ params }) {
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
-                      alt="Mundo comprimido"
+                      alt={String(t.compression.altCompressedLogo)}
                       fill
                       className="object-contain"
                       priority
@@ -240,8 +240,8 @@ export default async function Inicio({ params }) {
                 <div className="text-center mb-2">
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
-                      src="/assets/img/WinÑAR.webp"
-                      alt="Mundo sin comprimir"
+                      src="/assets/img/RAR.webp"
+                      alt={String(t.compression.altRAR)}
                       fill
                       className="object-contain"
                       priority
@@ -263,7 +263,7 @@ export default async function Inicio({ params }) {
                   <div className="relative w-32 h-32 mx-auto">
                     <Image
                       src="/assets/img/logo.webp"
-                      alt="Mundo comprimido"
+                      alt={String(t.compression.altCompressedLogo)}
                       fill
                       className="object-contain"
                       priority
