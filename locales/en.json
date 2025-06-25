@@ -2,23 +2,27 @@
   "seo": {
     "title": "Minecraft World Compressor",
     "description": "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.",
-    "keywords": ["compress minecraft world",
-        "optimize minecraft world",
-        "reduce minecraft size",
-        "mc world compressor",
-        "minecraft compressor online",
-        "download compressed world",
-        "minecraft java world"]
+    "keywords": [
+      "compress minecraft world",
+      "optimize minecraft world",
+      "reduce minecraft size",
+      "mc world compressor",
+      "minecraft compressor online",
+      "download compressed world",
+      "minecraft java world"
+    ]
   },
   "home": {
     "title": "Compress your Minecraft worlds",
     "subtitle": "Reduce size by about",
     "description": "Free and Online",
-    "cta": "Compress World",
+    "compressButton": "Compress World",
     "howItWorks": "How does compression work?",
     "compression": {
       "moreThanZip": "More than simple ZIP compression",
       "intelligentAnalysis": "The compressor doesn't just create a ZIP file of your Minecraft world. It goes much further by intelligently analyzing your world's structure.",
+      "altRAR": "Uncompressed World Logo",
+      "altCompressedLogo": "Compressed World Logo",
       "removeChunks": "Remove unused chunks:",
       "removeChunksDesc": "Automatically identifies and removes all areas of the world that are not commonly used, significantly reducing file size.",
       "result": "The result is about a 50% reduction in original size, keeping all gameplay and progress of your world intact.",
@@ -80,39 +84,39 @@
     "compress": "Compress"
   },
   "upload": {
-  "title": "Compress your Minecraft world",
-  "worldQueue": "Worlds in queue:",
-  "description": "Upload Minecraft world",
-  "selectFile": "Select file",
-  "fileSelected": "File selected",
-  "fileRequirements": "Only .zip, .tar and .tar.gz files, maximum 4GB",
-  "fileTypes": "File types allowed: .zip, .tar, .tar.gz",
-  "uploading": "Uploading...",
-  "upload": "Compress World",
-  "uploaded": "World uploaded successfully!",
-  "redirecting": "Automatically redirecting to the status page...",
-  "clickToRedirect": "Click here if you are not automatically redirected",
-  "dragDrop": "Drag your world here",
-  "orCondition": "Or",
-  "howToCompress": "How to compress your Minecraft world?",
-  "compressMethods": {
-    "title": "These are the 3 valid structures for your file",
-    "method1": "ZIP with the world folder inside.",
-    "method2": "ZIP with the world files directly.",
-    "method3": "ZIP with multiple folders",
-    "method3Subtitle": "The first world found will be used"
+    "title": "Compress your Minecraft world",
+    "worldQueue": "Worlds in queue:",
+    "description": "Upload Minecraft world",
+    "selectFile": "Select file",
+    "fileSelected": "File selected",
+    "fileRequirements": "Only .zip, .tar and .tar.gz files, maximum 4GB",
+    "fileTypes": "File types allowed: .zip, .tar, .tar.gz",
+    "uploading": "Uploading...",
+    "upload": "Compress World",
+    "uploaded": "World uploaded successfully!",
+    "redirecting": "Automatically redirecting to the status page...",
+    "clickToRedirect": "Click here if you are not automatically redirected",
+    "dragDrop": "Drag your world here",
+    "orCondition": "Or",
+    "howToCompress": "How to compress your Minecraft world?",
+    "compressMethods": {
+      "title": "These are the 3 valid structures for your file",
+      "method1": "ZIP with the world folder inside.",
+      "method2": "ZIP with the world files directly.",
+      "method3": "ZIP with multiple folders",
+      "method3Subtitle": "The first world found will be used"
+    },
+    "subtitle1": "The system will automatically detect your file structure and process the world correctly.",
+    "subtitle2": "The world name doesn't have to be 'world', and the system returns the result using the first structure (file, folder, world content).",
+    "errors": {
+      "zipOnly": "Only .zip files are allowed",
+      "sizeLimit": "The file cannot exceed 4GB",
+      "selectFile": "Please select a file",
+      "processResponse": "Error processing the response",
+      "uploadFailed": "File upload failed, please try again",
+      "connectionError": "Connection error, please check your Internet connection"
+    }
   },
-  "subtitle1": "The system will automatically detect your file structure and process the world correctly.",
-  "subtitle2": "The world name doesn't have to be 'world', and the system returns the result using the first structure (file, folder, world content).",
-  "errors": {
-    "zipOnly": "Only .zip files are allowed",
-    "sizeLimit": "The file cannot exceed 4GB",
-    "selectFile": "Please select a file",
-    "processResponse": "Error processing the response",
-    "uploadFailed": "File upload failed, please try again",
-    "connectionError": "Connection error, please check your Internet connection"
-  }
-},
   "status": {
     "title": "World Status",
     "currentStatus": "Current Status",
