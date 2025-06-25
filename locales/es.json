@@ -2,23 +2,27 @@
   "seo": {
     "title": "Compresor de mundos de Minecraft",
     "description": "Comprime tus mundos de Minecraft Java. Ahorra espacio y mejora la gestión de tus mundos con nuestro compresor gratuito y online.",
-    "keywords": ["comprimir mundo minecraft",
-        "optimizar mundo minecraft",
-        "reducir tamaño minecraft",
-        "compressor mundo mc",
-        "compresor minecraft online",
-        "descargar mundo comprimido",
-        "mundo minecraft java"]
+    "keywords": [
+      "comprimir mundo minecraft",
+      "optimizar mundo minecraft",
+      "reducir tamaño minecraft",
+      "compressor mundo mc",
+      "compresor minecraft online",
+      "descargar mundo comprimido",
+      "mundo minecraft java"
+    ]
   },
   "home": {
     "title": "Comprime tus mundos de Minecraft",
     "subtitle": "Reduce el tamaño cerca de un",
     "description": "Gratis y Online",
-    "cta": "Comprimir Mundo",
+    "compressButton": "Comprimir Mundo",
     "howItWorks": "¿Cómo funciona la compresión?",
     "compression": {
       "moreThanZip": "Más que una simple compresión ZIP",
       "intelligentAnalysis": "El compresor no solo crea un archivo ZIP de tu mundo de Minecraft. Va mucho más allá analizando inteligentemente la estructura de tu mundo.",
+      "altRAR": "Logo Mundo sin comprimir",
+      "altCompressedLogo": "Logo Mundo comprimido",
       "removeChunks": "Elimina chunks no utilizados:",
       "removeChunksDesc": "Identifica y remueve automáticamente todas las áreas del mundo que no se usan habitualmente, reduciendo significativamente el tamaño del archivo.",
       "result": "El resultado es una reducción cerca del 50% del tamaño original, manteniendo intacta toda la jugabilidad y progreso de tu mundo.",
@@ -95,7 +99,7 @@
     "dragDrop": "Arrastra tu mundo aquí",
     "orCondition": "O",
     "howToCompress": "¿Cómo comprimir tu mundo de Minecraft?",
-    "compressMethods":{
+    "compressMethods": {
       "title": "Estas son las 3 estructuras válidas para tu archivo",
       "method1": "ZIP con carpeta del mundo en el interior del.",
       "method2": "ZIP con los archivos directamente.",
@@ -131,7 +135,7 @@
     "ready": "¡Tu mundo está listo para descargar!",
     "goToDownload": "Ir a la descarga",
     "linkExpired": "El enlace de descarga ha expirado. Puedes comprimir un nuevo mundo para obtener un enlace de descarga válido.",
-    "expired":{
+    "expired": {
       "title": "El enlace de descarga ha expirado",
       "info": "Información del mundo expirado",
       "createdDate": "Fecha de creación",
@@ -152,7 +156,7 @@
       "serverNotFound": "No se ha encontrado el servidor con ese ID. Por favor, revisa el enlace o vuelve a intentarlo.",
       "serverNotFoundTitle": "Servidor no encontrado"
     },
-    "info":{
+    "info": {
       "helpContact": "¿Necesitas ayuda? Contáctanos"
     },
     "status": {
