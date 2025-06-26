@@ -1,11 +1,12 @@
 /**
  * Configuración personalizada para next-sitemap con rutas multilenguaje y rutas dinámicas.
  */
-const locales = ['es', 'en'];
+const locales = ["es", "en", "ar"];
 
-const dynamicIds = ['1'];
+const dynamicIds = ["1"];
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mcworldcompressor.vercel.app';
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://mcworldcompressor.vercel.app";
 
 module.exports = {
   siteUrl,
@@ -13,7 +14,7 @@ module.exports = {
   robotsTxtOptions: {
     transformRobotsTxt: async (_, robotsTxt) => {
       // Solo Sitemap, sin Host
-      const hostUrl = siteUrl.replace(/^https?:\/\//, '');
+      const hostUrl = siteUrl.replace(/^https?:\/\//, "");
       const sitemapUrl = `https://${hostUrl}/sitemap.xml`;
       return `# *\nUser-agent: *\nAllow: /\n\n# Sitemaps\nSitemap: ${sitemapUrl}`;
     },

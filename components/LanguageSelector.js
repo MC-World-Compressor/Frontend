@@ -39,6 +39,7 @@ export default function LanguageSelector({ locale }) {
         <link rel="alternate" hrefLang="en" href="/en" />
         <link rel="alternate" hrefLang="es" href="/es" />
         <link rel="alternate" hrefLang="hi" href="/hi" />
+        <link rel="alternate" hrefLang="ar" href="/ar" />
         <link rel="alternate" hrefLang="x-default" href="/en" />
       </Head>
       <div className="relative" ref={ref}>
@@ -57,7 +58,7 @@ export default function LanguageSelector({ locale }) {
               </svg>
             </span>
           ) : locale === 'hi' ? (
-            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="Bandera de India">
+            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="भारत का ध्वज">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" width="20" height="16">
                 <rect width="60" height="40" fill="#FF9933"/>
                 <rect y="13.33" width="60" height="13.34" fill="#fff"/>
@@ -75,6 +76,14 @@ export default function LanguageSelector({ locale }) {
                   })}
                 </g>
                 <circle cx="30" cy="20" r="1" fill="#000080"/>
+              </svg>
+            </span>
+          ) : locale === 'ar' ? (
+            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="علم اليمن">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" width="20" height="16">
+                <rect width="60" height="13.33" y="0" fill="#ce1126"/>
+                <rect width="60" height="13.33" y="13.33" fill="#fff"/>
+                <rect width="60" height="13.34" y="26.66" fill="#000"/>
               </svg>
             </span>
           ) : (
@@ -118,6 +127,7 @@ export default function LanguageSelector({ locale }) {
           role="listbox"
           tabIndex={-1}
         >
+          {/* Inglés */}
           <button
             onClick={() => changeLanguage('en')}
             disabled={locale === 'en'}
@@ -156,6 +166,7 @@ export default function LanguageSelector({ locale }) {
             </span>
             English
           </button>
+          {/* Español */}
           <button
             onClick={() => changeLanguage('es')}
             disabled={locale === 'es'}
@@ -170,13 +181,14 @@ export default function LanguageSelector({ locale }) {
             </span>
             Español
           </button>
+          {/* Hindi */}
           <button
             onClick={() => changeLanguage('hi')}
             disabled={locale === 'hi'}
-            className={`block w-full text-left px-4 py-2 text-sm flex items-center gap-2 rounded-b-md ${locale === 'hi' ? 'opacity-50 cursor-not-allowed bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-200' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+            className={`block w-full text-left px-4 py-2 text-sm flex items-center gap-2 ${locale === 'hi' ? '' : 'rounded-md'} ${locale === 'hi' ? 'opacity-50 cursor-not-allowed bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-200' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             style={{ cursor: locale === 'hi' ? 'not-allowed' : 'pointer' }}
           >
-            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="Bandera de India">
+            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="भारत का ध्वज">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" width="20" height="16">
                 <rect width="60" height="40" fill="#FF9933"/>
                 <rect y="13.33" width="60" height="13.34" fill="#fff"/>
@@ -197,6 +209,22 @@ export default function LanguageSelector({ locale }) {
               </svg>
             </span>
             हिंदी
+          </button>
+          {/* Árabe */}
+          <button
+            onClick={() => changeLanguage('ar')}
+            disabled={locale === 'ar'}
+            className={`block w-full text-left px-4 py-2 text-sm flex items-center gap-2 rounded-b-md ${locale === 'ar' ? 'opacity-50 cursor-not-allowed bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-gray-200' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+            style={{ cursor: locale === 'ar' ? 'not-allowed' : 'pointer' }}
+          >
+            <span className="inline-block w-5 h-5 mr-2 align-middle mt-2" aria-label="علم اليمن">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" width="20" height="16">
+                <rect width="60" height="13.33" y="0" fill="#ce1126"/>
+                <rect width="60" height="13.33" y="13.33" fill="#fff"/>
+                <rect width="60" height="13.34" y="26.66" fill="#000"/>
+              </svg>
+            </span>
+            العربية
           </button>
         </div>
       </div>

@@ -23,18 +23,23 @@ export async function generateMetadata({ params }) {
   const { locale } = await params;
   // Traducciones para SEO
   const title = "MC World Compressor"; //getTranslation(locale, "seo.title", "MC World Compressor");
-  const description = getTranslation(locale, "seo.description", "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor.");
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://mcworldcompressor.vercel.app';
+  const description = getTranslation(
+    locale,
+    "seo.description",
+    "Compress your Minecraft Java worlds. Save space and improve the management of your worlds with our free and online compressor."
+  );
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mcworldcompressor.vercel.app";
   const image = `${siteUrl}/assets/img/logo.webp`;
   const keywords = getTranslation(locale, "seo.keywords", [
-        "compress minecraft world",
-        "optimize minecraft world",
-        "reduce minecraft size",
-        "mc world compressor",
-        "minecraft compressor online",
-        "download compressed world",
-        "minecraft java world"
-      ]);
+    "compress minecraft world",
+    "optimize minecraft world",
+    "reduce minecraft size",
+    "mc world compressor",
+    "minecraft compressor online",
+    "download compressed world",
+    "minecraft java world",
+  ]);
 
   return {
     title,
@@ -62,22 +67,23 @@ export async function generateMetadata({ params }) {
       locale,
       type: "website",
       description,
-      determiner: 'the',
-      emails: ['srkktua@protonmail.com'],
-      site_name: 'MC World Compressor',
+      determiner: "the",
+      emails: ["srkktua@protonmail.com"],
+      site_name: "MC World Compressor",
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: '@mcworldcompressor',
+      creator: "@mcworldcompressor",
     },
     alternates: {
       canonical: `${siteUrl}/${locale}`,
       languages: {
         es: `${siteUrl}/es`,
         en: `${siteUrl}/en`,
+        ar: `${siteUrl}/ar`,
       },
     },
     metadataBase: new URL(siteUrl),
@@ -92,16 +98,25 @@ export default async function LocaleLayout({ children, params }) {
       <head>
         <title>MC World Compressor</title>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" type="image/webp" href="/assets/img/logo.webp" sizes="512x512" />
-        <link rel="apple-touch-icon" href="/assets/img/logo.webp" sizes="512x512" />
+        <link
+          rel="icon"
+          type="image/webp"
+          href="/assets/img/logo.webp"
+          sizes="512x512"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/assets/img/logo.webp"
+          sizes="512x512"
+        />
         <meta name="image" content="/assets/img/logo.webp" />
         <meta itemProp="image" content="/assets/img/logo.webp" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-gray-900`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-gray-900`}
+      >
         <Navbar locale={locale} />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="flex-grow">{children}</main>
         <Footer locale={locale} />
       </body>
     </html>
