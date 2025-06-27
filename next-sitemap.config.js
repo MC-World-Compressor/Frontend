@@ -1,7 +1,7 @@
 /**
  * Configuración personalizada para next-sitemap con rutas multilenguaje y rutas dinámicas.
  */
-const locales = ["es", "en", "ar"];
+const locales = ["es", "en", "hi", "ar"];
 
 const dynamicIds = ["1"];
 
