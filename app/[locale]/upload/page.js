@@ -82,8 +82,8 @@ export default function HomePage({ params }) {
       }
       
       // Comprobar si el archivo pesa más de 4GB (4 * 1024 * 1024 * 1024 bytes)
-      const MAX_SIZE = 4 * 1024 * 1024 * 1024; // 4GB en bytes
-      if (file.size > MAX_SIZE) {
+      const MAX_TAMAÑO = 4 * 1024 * 1024 * 1024; // 4GB en bytes
+      if (file.size > MAX_TAMAÑO) {
         setError(t('upload.errors.sizeLimit'));
         setFichero(null);
         return;
@@ -103,53 +103,46 @@ export default function HomePage({ params }) {
     setSubiendo(true);
     setProgresoSubida(0);
     setError(null);
-    
-    let intervaloProceso;
-    const ficheroEnGB = fichero.size / (1024 * 1024 * 1024);
-    
-    let tiempoTotalEnSegundos = Math.max(5, ficheroEnGB * 90); // 90 segundos por cada GB, mínimo 5 segundos
-    
-    const intervaloActualizacion = 500;
-    const actualizacionesTotales = (tiempoTotalEnSegundos * 1000) / intervaloActualizacion;
-    const incrementPerUpdate = 80 / actualizacionesTotales;
-    
-    const formData = new FormData();
-    formData.append('mundo_comprimido', fichero);
+
+    const tamañoChunk = 50 * 1024 * 1024; // 50MB
+    const chunksTotales = Math.ceil(fichero.size / tamañoChunk);
+    const idSubida = Date.now().toString() + Math.floor(Math.random() * 1000);
 
     try {
-      intervaloProceso = setInterval(() => {
-        setProgresoSubida(prevProgress => {
-          if (prevProgress < 80) {
-            return Math.min(79, prevProgress + incrementPerUpdate);
-          }
-          return prevProgress;
+      for (let chunkIndex = 0; chunkIndex < chunksTotales; chunkIndex++) {
+        const start = chunkIndex * tamañoChunk;
+        const end = Math.min(start + tamañoChunk, fichero.size);
+        const chunk = fichero.slice(start, end);
+
+        const formData = new FormData();
+        formData.append('mundo_comprimido', chunk);
+        formData.append('fileName', fichero.name);
+        formData.append('uploadId', idSubida);
+        formData.append('chunkIndex', chunkIndex);
+        formData.append('totalChunks', chunksTotales);
+        formData.append('isLastChunk', chunkIndex === chunksTotales - 1 ? 'true' : 'false');
+
+        const response = await fetch(`${backendUrl}/api/subir`, {
+          method: 'POST',
+          body: formData,
         });
-      }, intervaloActualizacion);
 
-      const response = await fetch(`${backendUrl}/api/subir`, {
-        method: 'POST',
-        body: formData,
-      });
+        let resData = {};
+        try {
+          resData = await response.json();
+        } catch {}
 
-      clearInterval(intervaloProceso);
-
-      if (response.ok) {
-        const data = await response.json();
-        setProgresoSubida(100);
-        if (data.servidor_id) {
-          setServerId(data.servidor_id);
-        } else if (data.jobId) {
-          setServerId(data.jobId);
-        } else {
-          throw new Error('Error al subir el mundo: ID del servidor no encontrado');
+        if (!response.ok) {
+          throw new Error(resData.error || resData.message || `Error en subida (chunk ${chunkIndex + 1})`);
         }
-      } else {
-        setSubiendo(false);
-        setFichero(null);
-        setError(t('upload.errors.uploadFailed'));
+
+        setProgresoSubida(Math.round(((chunkIndex + 1) / chunksTotales) * 100));
+
+        if (chunkIndex === chunksTotales - 1 && (resData.servidor_id || resData.jobId)) {
+          setServerId(resData.servidor_id || resData.jobId);
+        }
       }
     } catch (e) {
-      if (intervaloProceso) clearInterval(intervaloProceso);
       setError(e.message);
       setFichero(null);
       setSubiendo(false);
@@ -220,7 +213,7 @@ export default function HomePage({ params }) {
             type="file" 
             accept=".zip,.tar,.tar.gz"
             name="mundo_comprimido" 
-            id="mundo_comprimido" 
+            id="mundo_comprimido"
             onChange={handleFileChange} 
             className="hidden"
           />
