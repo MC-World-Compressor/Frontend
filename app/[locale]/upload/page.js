@@ -67,7 +67,28 @@ export default function HomePage({ params }) {
     }
   }, [serverId, router, locale]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (subiendo) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    };
+
+    if (subiendo) {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      window.history.pushState(null, '', window.location.pathname);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [subiendo, locale]);
+
   const handleFileChange = (e) => {
+    if (subiendo) return;
+    
     const file = e.target.files[0];
     
     if (file) {
@@ -160,22 +181,28 @@ export default function HomePage({ params }) {
     <main className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 dark:text-white">{t('upload.title')}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-2xl mx-auto">
-        <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 h-52 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors dark:bg-gray-800"
+        <div className={`border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 h-52 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors dark:bg-gray-800 ${subiendo ? 'opacity-50 cursor-not-allowed' : ''}`}
           style={{overflow: 'hidden', height: '16rem'}}
-          onClick={() => document.getElementById('mundo_comprimido').click()}
+          onClick={() => !subiendo && document.getElementById('mundo_comprimido').click()}
           onDragOver={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.currentTarget.classList.add('border-blue-500');
+            if (!subiendo) {
+              e.currentTarget.classList.add('border-blue-500');
+            }
           }}
           onDragLeave={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            e.currentTarget.classList.remove('border-blue-500');
+            if (!subiendo) {
+              e.currentTarget.classList.remove('border-blue-500');
+            }
           }}          onDrop={(e) => {
             e.preventDefault();
             e.stopPropagation();
             e.currentTarget.classList.remove('border-blue-500');
+            
+            if (subiendo) return;
             
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
               const file = e.dataTransfer.files[0];
@@ -209,8 +236,9 @@ export default function HomePage({ params }) {
 
           <button 
             type="button" 
-            onClick={() => document.getElementById('mundo_comprimido').click()}
-            className="cursor-pointer bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-6 rounded transition-colors w-48"
+            onClick={() => !subiendo && document.getElementById('mundo_comprimido').click()}
+            disabled={subiendo}
+            className={`cursor-pointer bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-6 rounded transition-colors w-48 ${subiendo ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {t('upload.selectFile')}
           </button>
@@ -223,6 +251,7 @@ export default function HomePage({ params }) {
             id="mundo_comprimido"
             onChange={handleFileChange} 
             className="hidden"
+            disabled={subiendo}
           />
           <p className="mt-3 mb-4 text-sm text-gray-500 dark:text-gray-400">
             <b>{t('upload.fileTypes')}</b>
