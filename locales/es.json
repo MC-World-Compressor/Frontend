@@ -89,7 +89,7 @@
     "description": "Subir mundo de Minecraft",
     "selectFile": "Seleccionar archivo",
     "fileSelected": "Archivo seleccionado",
-    "fileRequirements": "Solo archivos .zip, máximo 4GB",
+    "fileRequirements": "Solo archivos .zip, .tar o .tar.gz de máximo 4GB",
     "fileTypes": "Tipos de archivo permitidos: .zip, .tar, .tar.gz",
     "uploading": "Subiendo...",
     "upload": "Comprimir Mundo",
@@ -99,6 +99,8 @@
     "dragDrop": "Arrastra tu mundo aquí",
     "orCondition": "O",
     "howToCompress": "¿Cómo comprimir tu mundo de Minecraft?",
+    "lastChunkWarningTitle": "Procesando último bloque...",
+    "lastChunkWarningSubtitle": "El último bloque puede tardar más tiempo en procesarse, esto es normal.",
     "compressMethods": {
       "title": "Estas son las 3 estructuras válidas para tu archivo",
       "method1": "ZIP con carpeta del mundo en el interior del.",

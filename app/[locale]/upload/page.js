@@ -12,6 +12,7 @@ export default function HomePage({ params }) {
   const [error, setError] = useState(null);
   const [locale, setLocale] = useState(null);
   const [cola, setCola] = useState(null);
+  const [mostrarAvisoUltimoChunk, setMostrarAvisoUltimoChunk] = useState(false);
   const router = useRouter();
   const { t } = useTranslations(locale || 'en');
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -81,7 +82,6 @@ export default function HomePage({ params }) {
         return;
       }
       
-      // Comprobar si el archivo pesa más de 4GB (4 * 1024 * 1024 * 1024 bytes)
       const MAX_TAMAÑO = 4 * 1024 * 1024 * 1024; // 4GB en bytes
       if (file.size > MAX_TAMAÑO) {
         setError(t('upload.errors.sizeLimit'));
@@ -103,13 +103,19 @@ export default function HomePage({ params }) {
     setSubiendo(true);
     setProgresoSubida(0);
     setError(null);
+    setMostrarAvisoUltimoChunk(false);
 
     const tamañoChunk = 50 * 1024 * 1024; // 50MB
     const chunksTotales = Math.ceil(fichero.size / tamañoChunk);
     const idSubida = Date.now().toString() + Math.floor(Math.random() * 1000);
+    const archivoPesado = fichero.size > 500 * 1024 * 1024; // 500MB
 
     try {
       for (let chunkIndex = 0; chunkIndex < chunksTotales; chunkIndex++) {
+        if (chunkIndex === chunksTotales - 1 && archivoPesado) {
+          setMostrarAvisoUltimoChunk(true);
+        }
+        
         const start = chunkIndex * tamañoChunk;
         const end = Math.min(start + tamañoChunk, fichero.size);
         const chunk = fichero.slice(start, end);
@@ -146,6 +152,7 @@ export default function HomePage({ params }) {
       setError(e.message);
       setFichero(null);
       setSubiendo(false);
+      setMostrarAvisoUltimoChunk(false);
     }
   };
 
@@ -183,7 +190,7 @@ export default function HomePage({ params }) {
               }
               const MAX_SIZE = 4 * 1024 * 1024 * 1024; // 4GB
               if (file.size > MAX_SIZE) {
-                setError('El archivo no puede superar los 8GB');
+                setError(t('upload.dragDrop'));
                 setFichero(null);
                 return;
               }
@@ -222,6 +229,21 @@ export default function HomePage({ params }) {
           </p>
         </div>
         {error && <p className="text-red-600 dark:text-red-400"><b>{error}</b></p>}
+        
+        {mostrarAvisoUltimoChunk && (
+          <div className="bg-blue-100 dark:bg-blue-900/20 border border-blue-400 dark:border-blue-600 text-blue-700 dark:text-blue-300 px-4 py-3 rounded relative">
+            <div className="flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <div>
+                <p className="font-medium">{t('upload.lastChunkWarningTitle')}</p>
+                <p className="text-sm">{t('upload.lastChunkWarningSubtitle')}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <button
           type="submit"
           disabled={subiendo || error !== null}

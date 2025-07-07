@@ -99,6 +99,8 @@
     "dragDrop": "अपना वर्ल्ड यहाँ खींचें और छोड़ें",
     "orCondition": "या",
     "howToCompress": "Minecraft वर्ल्ड को कैसे कंप्रेस करें?",
+    "lastChunkWarningTitle": "अंतिम ब्लॉक का प्रसंस्करण किया जा रहा है...",
+    "lastChunkWarningSubtitle": "अंतिम ब्लॉक को संसाधित होने में अधिक समय लग सकता है, यह सामान्य है।",
     "compressMethods": {
       "title": "आपकी फाइल के लिए ये 3 वैध स्ट्रक्चर हैं",
       "method1": "ZIP जिसमें वर्ल्ड फ़ोल्डर अंदर हो।",

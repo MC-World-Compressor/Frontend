@@ -99,6 +99,8 @@
     "dragDrop": "اسحب ملف العالم إلى هنا",
     "orCondition": "أو",
     "howToCompress": "كيفية ضغط ملف عالم ماينكرافت؟",
+    "lastChunkWarningTitle": "يتم معالجة الكتلة الأخيرة...",
+    "lastChunkWarningSubtitle": "قد يستغرق معالجة الكتلة الأخيرة وقتًا أطول، وهذا أمر طبيعي.",
     "compressMethods": {
       "title": "أنماط الملفات المسموحة:",
       "method1": "ملف ZIP يحتوي على مجلد العالم داخله.",

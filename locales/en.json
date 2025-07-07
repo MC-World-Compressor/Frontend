@@ -99,6 +99,8 @@
     "dragDrop": "Drag your world here",
     "orCondition": "Or",
     "howToCompress": "How to compress your Minecraft world?",
+    "lastChunkWarningTitle": "Processing the last block...",
+    "lastChunkWarningSubtitle": "The last block may take longer to process, this is normal.",
     "compressMethods": {
       "title": "These are the 3 valid structures for your file",
       "method1": "ZIP with the world folder inside.",
