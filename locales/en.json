@@ -68,7 +68,7 @@
       },
       "security": {
         "question": "Is it safe for my files?",
-        "answer": "Absolutely. Our service processes your files locally and then automatically deletes them after 1 hour. We don't store any personal information or keep copies of your worlds after that period."
+        "answer": "Absolutely. Our service processes your files and then automatically deletes them after 1 hour. We don't store any personal information or keep copies of your worlds after that period."
       }
     },
     "ctaSection": {

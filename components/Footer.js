@@ -11,7 +11,7 @@ export default function Footer({ locale = 'en' }) {
           <div className="mb-4 md:mb-0">
             <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">MC World Compressor</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              <u><a href="mailto:contacto@mcworldcompressor.com" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <u><a href="mailto:srkktua@protonmail.com?subject=MCWCompressor" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 srkktua@protonmail.com
               </a></u>
             </p>

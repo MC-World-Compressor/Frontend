@@ -96,7 +96,6 @@ export default async function LocaleLayout({ children, params }) {
   return (
     <html lang={locale} className="h-full">
       <head>
-        <title>MC World Compressor</title>
         <link rel="manifest" href="/manifest.json" />
         <link
           rel="icon"

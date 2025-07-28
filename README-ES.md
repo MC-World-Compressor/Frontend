@@ -7,7 +7,7 @@ Aplicación web para comprimir mundos de Minecraft usando la librería [thanos](
 - Comprime mundos de Minecraft Java (.zip, .tar, .tar.gz)
 - Eliminación inteligente de chunks y optimización
 - Gratis y de código abierto
-- Soporte multi-idioma (EN/ES)
+- Soporte multi-idioma (EN/ES/HI/AR)
 - Interfaz moderna con Next.js y React
 
 ## Primeros pasos

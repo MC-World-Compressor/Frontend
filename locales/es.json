@@ -68,7 +68,7 @@
       },
       "security": {
         "question": "¿Es seguro para mis archivos?",
-        "answer": "Absolutamente. Nuestro servicio procesa tus archivos localmente y luego los elimina automáticamente después de 1 hora. No almacenamos ninguna información personal ni mantenemos copias de tus mundos después de ese período."
+        "answer": "Absolutamente. Nuestro servicio procesa los archivos y luego los elimina automáticamente después de 1 hora. No almacenamos ninguna información personal ni mantenemos copias de tus mundos después de ese período."
       }
     },
     "ctaSection": {

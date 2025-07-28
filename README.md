@@ -2,12 +2,15 @@
 
 A web application to compress Minecraft worlds using the [thanos](https://github.com/aternosorg/thanos) library. Save space and optimize your worlds for easier sharing and storage.
 
+> [!NOTE]
+> The Spanish version of this README can be found in [README-ES.md](/README-ES.md).
+
 ## Features
 
 - Compress Minecraft Java worlds (.zip, .tar, .tar.gz)
 - Smart chunk removal and optimization
 - Free and open source
-- Multi-language support (EN/ES)
+- Multi-language support (EN/ES/HI/AR)
 - Modern UI with Next.js and React
 
 ## Getting Started
