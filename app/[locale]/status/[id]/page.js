@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from '@/lib/translations';
+import AdSense from '@/components/AdSense';
+import AdSenseMultiplex from '@/components/AdSenseMultiplex';
 
 const procesarCola = (colaData) => {
   if (!colaData) return null;
@@ -520,6 +522,37 @@ export default function StatusPage({ params }) {
 
           {renderEstadoMensaje()}
         </>
+      )}
+
+      {/* Anuncios - Mostrar siempre excepto cuando está expirado o en estados de carga inicial */}
+      {estado !== 'expirado' && 
+       estado !== t('status.loading') && 
+       estado !== t('status.loadingStatus') && (
+        <div className="mt-8 space-y-6">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              {t('status.ads.title')}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              {t('status.ads.supportService')}
+            </p>
+          </div>
+          
+          {/* Anuncio Multiplex */}
+          <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg border dark:border-gray-700 p-4">
+            <AdSenseMultiplex
+              className="w-full"
+              style={{ 
+                display: 'block',
+                minHeight: '300px'
+              }}
+            />
+          </div>
+
+          <div className="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">
+            {t('status.ads.thankYou')}
+          </div>
+        </div>
       )}
     </main>
   );

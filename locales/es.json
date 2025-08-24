@@ -117,6 +117,15 @@
       "processResponse": "Error al procesar la respuesta",
       "uploadFailed": "Error al subir el archivo, por favor inténtalo de nuevo",
       "connectionError": "Error de conexión, por favor verifica tu conexión a Internet"
+    },
+    "ads": {
+      "supportCreator": "Apoya al creador",
+      "supportMessage": "Los anuncios nos ayudan a mantener este servicio gratuito. ¡Gracias por tu apoyo!",
+      "waitTime": "Puedes continuar en",
+      "continue": "Continuar",
+      "continuingAuto": "Continuando automáticamente...",
+      "largeFileNotice": "Archivo grande detectado",
+      "adsRequired": "Para procesar archivos grandes, mostramos un breve anuncio para mantener el servicio gratuito."
     }
   },
   "status": {
@@ -167,6 +176,11 @@
       "pending": "En espera",
       "expired": "Expirado",
       "error": "Error"
+    },
+    "ads": {
+      "title": "Anuncios",
+      "supportService": "Los anuncios nos ayudan a mantener este servicio gratuito",
+      "thankYou": "¡Gracias por tu apoyo!"
     }
   },
   "download": {

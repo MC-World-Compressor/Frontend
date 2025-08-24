@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from '@/lib/translations';
+import AdBlockDetector from '@/components/AdBlockDetector';
+import AdModal from '@/components/AdModal';
 
 export default function HomePage({ params }) {
   const [fichero, setFichero] = useState(null);
@@ -13,6 +15,9 @@ export default function HomePage({ params }) {
   const [locale, setLocale] = useState(null);
   const [cola, setCola] = useState(null);
   const [mostrarAvisoUltimoChunk, setMostrarAvisoUltimoChunk] = useState(false);
+  const [mostrarModalAnuncio, setMostrarModalAnuncio] = useState(false);
+  const [adBlockDetected, setAdBlockDetected] = useState(false);
+  const [esperandoAnuncio, setEsperandoAnuncio] = useState(false);
   const router = useRouter();
   const { t } = useTranslations(locale || 'en');
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -121,10 +126,25 @@ export default function HomePage({ params }) {
       setError(t('upload.errors.selectFile'));
       return;
     }
+
+    // Verificar si el archivo es mayor a 100MB y mostrar anuncio
+    const MIN_SIZE_FOR_ADS = 100 * 1024 * 1024; // 100MB
+    if (fichero.size > MIN_SIZE_FOR_ADS && !esperandoAnuncio) {
+      if (adBlockDetected) {
+        setError('Por favor desactiva tu bloqueador de anuncios para continuar con archivos grandes.');
+        return;
+      }
+      setMostrarModalAnuncio(true);
+      setEsperandoAnuncio(true);
+      return;
+    }
+
+    // Proceder con la subida
     setSubiendo(true);
     setProgresoSubida(0);
     setError(null);
     setMostrarAvisoUltimoChunk(false);
+    setEsperandoAnuncio(false);
 
     const tamañoChunk = 50 * 1024 * 1024; // 50MB
     const chunksTotales = Math.ceil(fichero.size / tamañoChunk);
@@ -177,8 +197,16 @@ export default function HomePage({ params }) {
     }
   };
 
+  const handleAdModalClose = () => {
+    setMostrarModalAnuncio(false);
+    // Proceder con la subida después de cerrar el anuncio
+    const event = { preventDefault: () => {} };
+    handleSubmit(event);
+  };
+
   return (
-    <main className="max-w-4xl mx-auto p-4">
+    <AdBlockDetector onAdBlockDetected={setAdBlockDetected}>
+      <main className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 dark:text-white">{t('upload.title')}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-2xl mx-auto">
         <div className={`border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 h-52 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors dark:bg-gray-800 ${subiendo ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -390,5 +418,13 @@ export default function HomePage({ params }) {
       </div>
       
     </main>
+    
+    <AdModal 
+      isOpen={mostrarModalAnuncio}
+      onClose={handleAdModalClose}
+      t={t}
+      waitTime={15}
+    />
+    </AdBlockDetector>
   );
 }

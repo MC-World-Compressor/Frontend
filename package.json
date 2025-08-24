@@ -10,7 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.4.5",
+    "just-detect-adblock": "^1.1.0",
+    "next": "15.5.0",
     "next-sitemap": "^4.2.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
@@ -19,7 +20,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "15.4.5",
+    "eslint-config-next": "15.5.0",
     "tailwindcss": "^4"
   }
 }

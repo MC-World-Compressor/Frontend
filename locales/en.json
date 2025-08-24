@@ -117,6 +117,15 @@
       "processResponse": "Error processing the response",
       "uploadFailed": "File upload failed, please try again",
       "connectionError": "Connection error, please check your Internet connection"
+    },
+    "ads": {
+      "supportCreator": "Support the Creator",
+      "supportMessage": "Ads help us keep this service free. Thank you for your support!",
+      "waitTime": "You can continue in",
+      "continue": "Continue",
+      "continuingAuto": "Continuing automatically...",
+      "largeFileNotice": "Large file detected",
+      "adsRequired": "To process large files, we show a brief ad to keep the service free."
     }
   },
   "status": {
@@ -167,6 +176,11 @@
       "pending": "Pending",
       "expired": "Expired",
       "error": "Error"
+    },
+    "ads": {
+      "title": "Advertisements",
+      "supportService": "Ads help us keep this service free",
+      "thankYou": "Thank you for your support!"
     }
   },
   "download": {
