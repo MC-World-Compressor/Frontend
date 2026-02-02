@@ -167,7 +167,10 @@
       "pending": "Pending",
       "expired": "Expired",
       "error": "Error"
-    }
+    },
+    "jobId": "Job ID",
+    "copy": "Copy",
+    "copied": "Copied!"
   },
   "download": {
     "title": "Download Your Compressed World",
