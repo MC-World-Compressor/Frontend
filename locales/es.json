@@ -109,7 +109,7 @@
       "method3Subtitle": "Se usará el primer mundo que se encuentre"
     },
     "subtitle1": "El sistema detectará automáticamente la estructura de tu fichero y procesará el mundo correctamente.",
-    "subtitle2": "El nombre del mundo no tiene porque ser 'world' y la manera en el que el sistema devuelve el resultado es con la primera estructua (fichero, carpeta, contenido del mundo).",
+    "subtitle2": "El nombre del mundo no tiene porque ser 'world' y la manera en el que el sistema devuelve el resultado es con la primera estructura (fichero, carpeta, contenido del mundo).",
     "errors": {
       "zipOnly": "Solo se permiten archivos .zip, .tar o .tar.gz",
       "sizeLimit": "El archivo no puede superar los 4GB",
