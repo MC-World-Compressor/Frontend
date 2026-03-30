@@ -81,9 +81,11 @@ export async function generateMetadata({ params }) {
     alternates: {
       canonical: `${siteUrl}/${locale}`,
       languages: {
-        es: `${siteUrl}/es`,
         en: `${siteUrl}/en`,
+        es: `${siteUrl}/es`,
+        hi: `${siteUrl}/hi`,
         ar: `${siteUrl}/ar`,
+        'x-default': `${siteUrl}/en`,
       },
     },
     metadataBase: new URL(siteUrl),

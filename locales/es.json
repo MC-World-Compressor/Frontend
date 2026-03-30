@@ -167,7 +167,10 @@
       "pending": "En espera",
       "expired": "Expirado",
       "error": "Error"
-    }
+    },
+    "jobId": "ID de trabajo",
+    "copy": "Copiar",
+    "copied": "¡Copiado!"
   },
   "download": {
     "title": "Descarga tu mundo comprimido",

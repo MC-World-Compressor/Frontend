@@ -1,51 +1,53 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useTranslations } from '@/lib/translations';
 
 const procesarCola = (colaData) => {
   if (!colaData) return null;
-  
+
   if (typeof colaData === 'string' && colaData.includes('/')) {
     return colaData;
   }
-  
+
   const colaNum = Number(colaData);
   if (!isNaN(colaNum)) {
     return colaNum;
   }
-  
+
   return null;
 };
 
-export default function StatusPage({ params }) {
-  const [parametros, setParametros] = useState(null);
-  const [locale, setLocale] = useState(null);
-  const { t } = useTranslations(locale || 'en');
-  const [estado, setEstado] = useState(t('status.loading'));
+export default function StatusPage() {
+  const params = useParams();
+  const id = params?.id;
+  const locale = params?.locale || 'en';
+
+  const { t } = useTranslations(locale);
+  const [estado, setEstado] = useState(t('status.loadingStatus'));
   const [cola, setCola] = useState(null);
   const [error, setError] = useState(null);
   const [tipoError, setTipoError] = useState(null);
   const [redireccionando, setRedireccionando] = useState(false);
   const [infoMundo, setInfoMundo] = useState(null);
+  const [copiado, setCopiado] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const getParamsAndLocale = async () => {
-      const resolvedParams = await params;
-      setLocale(resolvedParams.locale);
-      setParametros(resolvedParams);
-    };
-    getParamsAndLocale();
-  }, [params]);
+  const copiarAlPortapapeles = async (texto) => {
+    try {
+      await navigator.clipboard.writeText(texto);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch (err) {
+      console.error('Error al copiar: ', err);
+    }
+  };
 
   useEffect(() => {
-    if (!parametros) return;
-    
-    const { id, locale } = parametros;
-    
+    if (!id) return;
+
     let interval;
     let estaFecheando = false;
     let parado = false;
@@ -138,8 +140,8 @@ export default function StatusPage({ params }) {
       parado = true;
       clearInterval(interval);
     };
-  }, [parametros, router]);
-  
+  }, [id, locale, router, t]);
+
   const renderContactoInfo = () => (
     <div className="bg-blue-50 dark:bg-blue-900/20 rounded-md p-4 mt-3 border border-blue-200 dark:border-blue-800">
       <div className="flex items-start">
@@ -151,8 +153,8 @@ export default function StatusPage({ params }) {
           <div className="space-y-3">
             <div className="flex items-center">
               <svg className="h-4 w-4 mr-3 text-blue-600 dark:text-blue-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
               </svg>
               <a href="mailto:srkktua@protonmail.com?subject=MCWCompressor%Help" className="text-sm text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100 hover:underline transition-colors">
                 srkktua@protonmail.com
@@ -160,7 +162,7 @@ export default function StatusPage({ params }) {
             </div>
             <div className="flex items-center">
               <svg className="h-4 w-4 mr-3 text-indigo-600 dark:text-indigo-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0189 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z"/>
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419-.0189 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1568 2.4189Z" />
               </svg>
               <a href="https://discord.com/users/529736520048050189" target="_blank" className="text-sm text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 hover:underline transition-colors">
                 Discord: @papela
@@ -168,7 +170,7 @@ export default function StatusPage({ params }) {
             </div>
             <div className="flex items-center">
               <svg className="h-4 w-4 mr-3 text-gray-600 dark:text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd"/>
+                <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd" />
               </svg>
               <a href="https://github.com/MC-World-Compressor/" target="_blank" className="text-sm text-indigo-800 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 hover:underline transition-colors">
                 GitHub
@@ -181,44 +183,73 @@ export default function StatusPage({ params }) {
   );
   const renderEstadoMensaje = () => {
     if (!parametros) return null;
-    
-    const { id, locale } = parametros;
-    
+    if (!params) return null;
+
+    const { id, locale } = params;
+
     switch (estado) {
       case 'pendiente':
         return (
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mb-4">
-            <div className="flex items-center">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-6 mb-4 rounded-r-lg shadow-sm">
+            <div className="flex items-start">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                </svg>
+                <div className="relative">
+                  <svg className="h-6 w-6 text-yellow-500 animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                  </span>
+                </div>
               </div>
-              <div className="ml-3">
-                <div className="text-sm text-yellow-700 dark:text-yellow-300">
-                  <p className="font-semibold">{t('status.queue')}</p>
-                  <p className="mt-1">
-                    {cola ? 
-                      typeof cola === 'string' && cola.includes('/') ? 
+              <div className="ml-4 flex-1">
+                <h3 className="text-sm font-bold text-yellow-800 dark:text-yellow-300 uppercase tracking-tight">
+                  {t('status.queue')}
+                </h3>
+                <div className="mt-2 text-sm text-yellow-700 dark:text-yellow-400/90 leading-relaxed">
+                  <p>
+                    {cola ?
+                      typeof cola === 'string' && cola.includes('/') ?
                         (() => {
                           const [posicion, total] = cola.split('/');
                           return t('status.queuePositionTotal', { posicion, total });
-                        })() : 
-                        cola > 0 ? `${t('status.calculateQueue')}: ${cola}` : t('status.calculateQueue') 
+                        })() :
+                        cola > 0 ? `${t('status.calculateQueue')}: ${cola}` : t('status.calculateQueue')
                       : t('status.calculateQueue')}
                   </p>
-                  <div className="mt-2 w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-2">
-                    {typeof cola === 'string' && cola.includes('/') ? 
-                      (() => {
-                        const [posicion, total] = cola.split('/').map(Number);
-                        const porcentaje = total > 0 ? (1 - ((posicion - 1) / total)) * 100 : 0;
-                        return <div className="bg-yellow-500 h-2 rounded-full" style={{ width: `${porcentaje}%` }}></div>
-                      })() : null
-                    }
-                  </div>
+
+                  {typeof cola === 'string' && cola.includes('/') && (
+                    <div className="mt-4">
+                      <div className="flex justify-between text-xs font-medium mb-1">
+                        <span>{t('status.queuePosition')}</span>
+                        <span>{Math.round((1 - ((Number(cola.split('/')[0]) - 1) / Number(cola.split('/')[1]))) * 100)}%</span>
+                      </div>
+                      <div className="w-full bg-yellow-200/50 dark:bg-yellow-900/40 rounded-full h-2.5 overflow-hidden">
+                        {(() => {
+                          const [posicion, total] = cola.split('/').map(Number);
+                          const porcentaje = total > 0 ? (1 - ((posicion - 1) / total)) * 100 : 0;
+                          return (
+                            <div
+                              className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-full rounded-full transition-all duration-1000 ease-in-out relative"
+                              style={{ width: `${porcentaje}%` }}
+                            >
+                              <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]"></div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
+            <style jsx>{`
+              @keyframes shimmer {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
+              }
+            `}</style>
           </div>
         );
       case 'procesando':
@@ -292,7 +323,7 @@ export default function StatusPage({ params }) {
                   </h3>
                 </div>
               </div>
-                {infoMundo && (
+              {infoMundo && (
                 <div className="bg-white dark:bg-gray-700 rounded-lg p-4 mb-4 border border-gray-200 dark:border-gray-600 shadow-sm">
                   <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
                     <svg className="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
@@ -346,7 +377,7 @@ export default function StatusPage({ params }) {
                           <p className="text-xs font-medium text-green-800 dark:text-green-200">{t('status.expired.compressedRatio')}</p>
                         </div>
                         <p className="text-lg font-bold text-green-900 dark:text-green-100">
-                          {((1 - (infoMundo.tamanoFinal / infoMundo.tamanoInicial)) * 100).toFixed(1)}% 
+                          {((1 - (infoMundo.tamanoFinal / infoMundo.tamanoInicial)) * 100).toFixed(1)}%
                           <span className="text-sm font-normal ml-1">{t('status.expired.rediction')}</span>
                         </p>
                       </div>
@@ -354,11 +385,11 @@ export default function StatusPage({ params }) {
                   </div>
                 </div>
               )}
-              
+
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-              {t('status.linkExpired')}
+                {t('status.linkExpired')}
               </p>
-              
+
               <div className="flex space-x-3">
                 <Link href={`/${locale}/upload`} className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                   <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -367,7 +398,7 @@ export default function StatusPage({ params }) {
                   {t('status.compressNewWorld')}
                 </Link>
                 <Link href={`/${locale}`} className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                {t('common.goBack')}
+                  {t('common.goBack')}
                 </Link>
               </div>
             </div>
@@ -392,21 +423,21 @@ export default function StatusPage({ params }) {
                     </h3>
                   </div>
                 </div>
-                
+
                 <div className="mb-4">
                   <p className="text-sm text-red-700 dark:text-red-300 mb-2">
                     {tipoError === 'error_servidor_no_encontrado'
                       ? t('status.errors.serverNotFound')
-                      : tipoError === 'error_procesamiento' 
+                      : tipoError === 'error_procesamiento'
                         ? t('status.errors.processing')
                         : tipoError === 'error_procesamiento_no_encontrado'
-                        ? t('status.errors.notFound')
-                        : tipoError === 'error_conexion'
-                        ? t('status.errors.connection') 
-                        : t('status.errors.error')
+                          ? t('status.errors.notFound')
+                          : tipoError === 'error_conexion'
+                            ? t('status.errors.connection')
+                            : t('status.errors.error')
                     }
                   </p>
-                  
+
                   {tipoError && (
                     <p className="text-xs text-red-600 dark:text-red-400 font-mono bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded">
                       {t('status.errors.code')}: {tipoError}
@@ -454,6 +485,43 @@ export default function StatusPage({ params }) {
   return (
     <main className="max-w-xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">{t('status.title')}</h1>
+
+      {/* Job ID & Copy Section */}
+      <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-lg border border-blue-100 dark:border-blue-900/30">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">
+              {t('status.jobId')}
+            </p>
+            <p className="text-sm font-mono text-gray-700 dark:text-gray-300 break-all bg-white dark:bg-gray-800 px-2 py-1 rounded border dark:border-gray-700">
+              {id}
+            </p>
+          </div>
+          <button
+            onClick={() => copiarAlPortapapeles(id)}
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-all duration-200 text-sm font-medium ${copiado
+              ? 'bg-green-500 text-white'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`}
+          >
+            {copiado ? (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                {t('status.copied')}
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                {t('status.copy')}
+              </>
+            )}
+          </button>
+        </div>
+      </div>
       {error ? (
         <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 p-4 mb-4">
           <div>
@@ -469,7 +537,7 @@ export default function StatusPage({ params }) {
                 </h3>
               </div>
             </div>
-            
+
             <div className="mb-4">
               <p className="text-sm text-red-700 dark:text-red-300 mb-2">{t('common.error')}: {error}</p>
               {tipoError && (
@@ -499,21 +567,20 @@ export default function StatusPage({ params }) {
           <div className="mb-4 p-4 bg-white dark:bg-gray-800 shadow-sm rounded-lg border dark:border-gray-700">
             <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('status.currentStatus')}</h2>
             <div className="flex items-center space-x-2">
-              <div className={`h-3 w-3 rounded-full ${
-                estado === 'listo' ? 'bg-green-500' : 
+              <div className={`h-3 w-3 rounded-full ${estado === 'listo' ? 'bg-green-500' :
                 estado === 'procesando' ? 'bg-blue-500' :
-                estado === 'pendiente' ? 'bg-yellow-500' :
-                estado.startsWith('error') ? 'bg-red-500' :
-                estado === 'expirado' ? 'bg-gray-500' :
-                'bg-gray-300'
-              }`}></div>
+                  estado === 'pendiente' ? 'bg-yellow-500' :
+                    estado.startsWith('error') ? 'bg-red-500' :
+                      estado === 'expirado' ? 'bg-gray-500' :
+                        'bg-gray-300'
+                }`}></div>
               <span className="font-medium text-gray-700 dark:text-gray-300">{
-                estado === 'listo' ? t('status.status.ready') : 
-                estado === 'procesando' ? t('status.status.processing') :
-                estado === 'pendiente' ? t('status.status.pending') :
-                estado.startsWith('error') ? t('common.error') :
-                estado === 'expirado' ? t('status.status.expired') :
-                estado
+                estado === 'listo' ? t('status.status.ready') :
+                  estado === 'procesando' ? t('status.status.processing') :
+                    estado === 'pendiente' ? t('status.status.pending') :
+                      estado.startsWith('error') ? t('common.error') :
+                        estado === 'expirado' ? t('status.status.expired') :
+                          estado
               }</span>
             </div>
           </div>
